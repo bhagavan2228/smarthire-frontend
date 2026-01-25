@@ -43,4 +43,4 @@ mvn spring-boot:run
 Actively developed — new features and improvements are being added.
 
 ## Author
-Yash
+Yashwanth Dodda
