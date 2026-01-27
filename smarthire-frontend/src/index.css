@@ -2,28 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  body {
-    @apply bg-gray-100 text-gray-800;
-  }
-}
-
-@layer components {
-  .card {
-    @apply bg-white rounded-xl shadow-md border border-gray-100;
-  }
-
-  .input {
-    @apply w-full border border-gray-300 rounded-md px-3 py-2
-           focus:outline-none focus:ring-2 focus:ring-blue-500;
-  }
-
-  .btn-primary {
-    @apply bg-blue-600 hover:bg-blue-700 text-white
-           py-2 rounded-md font-medium transition;
-  }
-
-  .link {
-    @apply text-blue-600 hover:underline font-medium;
-  }
+/* Global background & text */
+body {
+  background-color: #f3f4f6; /* gray-100 */
+  color: #1f2937; /* gray-800 */
 }
