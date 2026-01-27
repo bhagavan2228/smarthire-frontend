@@ -1,41 +1,124 @@
+import { useState } from "react";
+
 export default function MyApplications() {
+  const [applications] = useState([
+    {
+      id: 1,
+      jobTitle: "Frontend Developer",
+      company: "TechCorp",
+      status: "APPLIED",
+    },
+    {
+      id: 2,
+      jobTitle: "Backend Engineer",
+      company: "InnovateX",
+      status: "INTERVIEW",
+    },
+    {
+      id: 3,
+      jobTitle: "UI/UX Designer",
+      company: "DesignHub",
+      status: "REJECTED",
+    },
+  ]);
+
   return (
-    <div className="space-y-6">
+    <div>
+      <h1 style={{ fontSize: "28px", fontWeight: 700 }}>
+        My Applications
+      </h1>
+      <p style={{ color: "#666", marginBottom: "24px" }}>
+        Track the status of your job applications
+      </p>
 
-      <h1 className="text-2xl font-bold">My Applications</h1>
-
-      <div className="bg-white border rounded-lg shadow-sm overflow-hidden">
-        <table className="w-full text-sm">
-          <thead className="bg-gray-100">
+      <div
+        style={{
+          background: "#fff",
+          borderRadius: "8px",
+          boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
+          overflow: "hidden",
+        }}
+      >
+        <table style={{ width: "100%", borderCollapse: "collapse" }}>
+          <thead style={{ background: "#f8f9fa" }}>
             <tr>
-              <th className="text-left p-3">Job</th>
-              <th className="text-left p-3">Company</th>
-              <th className="text-left p-3">Status</th>
+              <th style={thStyle}>Job Title</th>
+              <th style={thStyle}>Company</th>
+              <th style={thStyle}>Status</th>
             </tr>
           </thead>
 
           <tbody>
-            <tr className="border-t">
-              <td className="p-3">Frontend Developer</td>
-              <td className="p-3">TechCorp</td>
-              <td className="p-3 text-yellow-600">Under Review</td>
-            </tr>
-
-            <tr className="border-t">
-              <td className="p-3">Backend Engineer</td>
-              <td className="p-3">InnovateX</td>
-              <td className="p-3 text-green-600">Interview</td>
-            </tr>
-
-            <tr className="border-t">
-              <td className="p-3">UI/UX Designer</td>
-              <td className="p-3">DesignHub</td>
-              <td className="p-3 text-gray-500">Applied</td>
-            </tr>
+            {applications.map((app) => (
+              <tr key={app.id} style={{ borderTop: "1px solid #eee" }}>
+                <td style={tdStyle}>{app.jobTitle}</td>
+                <td style={tdStyle}>{app.company}</td>
+                <td style={tdStyle}>
+                  <StatusBadge status={app.status} />
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
-
     </div>
+  );
+}
+
+/* ---------------- Styles ---------------- */
+
+const thStyle = {
+  textAlign: "left",
+  padding: "14px",
+  fontWeight: 600,
+  fontSize: "14px",
+};
+
+const tdStyle = {
+  padding: "14px",
+  fontSize: "14px",
+};
+
+/* ---------------- Status Badge ---------------- */
+
+function StatusBadge({ status }) {
+  const styles = {
+    APPLIED: {
+      bg: "#e7f0ff",
+      color: "#0d6efd",
+      label: "Applied",
+    },
+    INTERVIEW: {
+      bg: "#fff3cd",
+      color: "#856404",
+      label: "Interview",
+    },
+    SELECTED: {
+      bg: "#d4edda",
+      color: "#155724",
+      label: "Selected",
+    },
+    REJECTED: {
+      bg: "#f8d7da",
+      color: "#721c24",
+      label: "Rejected",
+    },
+  };
+
+  const s = styles[status];
+
+  return (
+    <span
+      style={{
+        background: s.bg,
+        color: s.color,
+        padding: "4px 10px",
+        borderRadius: "12px",
+        fontSize: "12px",
+        fontWeight: 500,
+      }}
+    >
+      {s.label}
+    </span>
   );
 }
