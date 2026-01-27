@@ -3,56 +3,57 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import AuthLayout from "../layouts/AuthLayout";
 import DashboardLayout from "../layouts/DashboardLayout";
 
-import CandidateDashboard from "../pages/CandidateDashboard";
 import Login from "../pages/Login";
-import RecruiterDashboard from "../pages/RecruiterDashboard";
 import Register from "../pages/Register";
 
+import CandidateDashboard from "../pages/CandidateDashboard";
+import RecruiterDashboard from "../pages/RecruiterDashboard";
+
+import NotFound from "../pages/NotFound";
 import ProtectedRoute from "./ProtectedRoute";
 import RoleRoute from "./RoleRoute";
 
 export default function AppRoutes() {
   return (
     <Routes>
-      {/* Root */}
-      <Route path="/" element={<Navigate to="/login" replace />} />
-
-      {/* Auth */}
+      {/* AUTH ROUTES */}
       <Route element={<AuthLayout />}>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Route>
 
-      {/* Recruiter */}
+      {/* DASHBOARD ROUTES */}
       <Route
-        path="/recruiter"
         element={
           <ProtectedRoute>
+            <DashboardLayout />
+          </ProtectedRoute>
+        }
+      >
+        {/* Recruiter */}
+        <Route
+          path="/recruiter"
+          element={
             <RoleRoute role="RECRUITER">
-              <DashboardLayout />
+              <RecruiterDashboard />
             </RoleRoute>
-          </ProtectedRoute>
-        }
-      >
-        <Route index element={<RecruiterDashboard />} />
-      </Route>
+          }
+        />
 
-      {/* Candidate */}
-      <Route
-        path="/candidate"
-        element={
-          <ProtectedRoute>
+        {/* Candidate */}
+        <Route
+          path="/candidate"
+          element={
             <RoleRoute role="CANDIDATE">
-              <DashboardLayout />
+              <CandidateDashboard />
             </RoleRoute>
-          </ProtectedRoute>
-        }
-      >
-        <Route index element={<CandidateDashboard />} />
+          }
+        />
       </Route>
 
-      {/* Fallback */}
-      <Route path="*" element={<Navigate to="/login" replace />} />
+      {/* DEFAULT */}
+      <Route path="/" element={<Navigate to="/login" />} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }
