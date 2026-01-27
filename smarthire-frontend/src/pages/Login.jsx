@@ -1,21 +1,64 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/logo.svg";
 
 export default function Login() {
+  const navigate = useNavigate();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+
+    // 🔐 TEMP AUTH LOGIC (replace with backend later)
+    const fakeResponse = {
+      token: "dummy-jwt-token",
+      role: email.includes("recruiter") ? "RECRUITER" : "CANDIDATE",
+    };
+
+    // Save auth data
+    localStorage.setItem("token", fakeResponse.token);
+    localStorage.setItem("role", fakeResponse.role);
+
+    // ✅ REDIRECT BASED ON ROLE
+    if (fakeResponse.role === "RECRUITER") {
+      navigate("/recruiter");
+    } else {
+      navigate("/candidate");
+    }
+  };
+
   return (
     <div style={page}>
-      <div style={card}>
+      <form style={card} onSubmit={handleLogin}>
         <img src={logo} alt="SmartHire" style={logoStyle} />
 
         <h2 style={title}>Login</h2>
 
         <label style={label}>Email</label>
-        <input type="email" placeholder="Email" style={input} />
+        <input
+          type="email"
+          placeholder="Email"
+          style={input}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
 
         <label style={label}>Password</label>
-        <input type="password" placeholder="Password" style={input} />
+        <input
+          type="password"
+          placeholder="Password"
+          style={input}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
 
-        <button style={primaryBtn}>Login</button>
+        <button type="submit" style={primaryBtn}>
+          Login
+        </button>
 
         <p style={footerText}>
           Don't have an account?{" "}
@@ -23,7 +66,7 @@ export default function Login() {
             Register
           </Link>
         </p>
-      </div>
+      </form>
     </div>
   );
 }
