@@ -4,63 +4,42 @@ import logo from "../assets/logo.svg";
 export default function Sidebar() {
   return (
     <aside style={sidebar}>
-      <img src={logo} alt="SmartHire" style={logoStyle} />
+      <img src={logo} style={{ height: 30, marginBottom: 30 }} />
 
-      <NavItem to="/candidate" icon="🏠" label="Dashboard" />
-      <NavItem to="/browse-jobs" icon="💼" label="Browse Jobs" />
-      <NavItem to="/candidate/applications" icon="📄" label="My Applications" />
+      <Nav to="/candidate">Dashboard</Nav>
+      <Nav to="/browse-jobs">Browse Jobs</Nav>
+      <Nav to="/candidate/applications">My Applications</Nav>
 
-      <div style={divider} />
+      <div style={{ marginTop: 30 }} />
 
-      <NavItem to="/recruiter" icon="🧑‍💼" label="Recruiter Dashboard" />
-      <NavItem to="/view-applicants" icon="👥" label="View Applicants" />
+      <Nav to="/recruiter">Recruiter</Nav>
+      <Nav to="/view-applicants">Applicants</Nav>
     </aside>
   );
 }
 
-function NavItem({ to, icon, label }) {
+function Nav({ to, children }) {
   return (
     <NavLink
       to={to}
       style={({ isActive }) => ({
-        ...navItem,
-        background: isActive ? "#1e40af" : "transparent",
+        padding: "10px 14px",
+        borderRadius: 8,
+        color: "#fff",
+        textDecoration: "none",
+        background: isActive ? "var(--secondary)" : "transparent",
+        display: "block",
+        marginBottom: 6,
       })}
     >
-      <span style={{ marginRight: "10px" }}>{icon}</span>
-      {label}
+      {children}
     </NavLink>
   );
 }
 
-/* ---------------- Styles ---------------- */
-
 const sidebar = {
-  width: "220px",
+  width: 240,
   background: "#0f172a",
-  color: "#ffffff",
-  padding: "20px",
-  minHeight: "100vh",
-};
-
-const logoStyle = {
-  height: "32px",
-  marginBottom: "24px",
-};
-
-const navItem = {
-  display: "flex",
-  alignItems: "center",
-  padding: "10px",
-  borderRadius: "8px",
-  color: "#ffffff",
-  textDecoration: "none",
-  marginBottom: "6px",
-  fontSize: "14px",
-};
-
-const divider = {
-  height: "1px",
-  background: "#334155",
-  margin: "14px 0",
+  color: "#fff",
+  padding: 20,
 };

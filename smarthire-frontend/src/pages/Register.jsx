@@ -1,58 +1,105 @@
 import { Link } from "react-router-dom";
+import logo from "../assets/logo.svg";
 
 export default function Register() {
   return (
-    <div className="max-w-sm mx-auto">
-      <h2 className="text-xl font-semibold mb-6">Register</h2>
+    <div style={page}>
+      <div style={card}>
+        <img src={logo} alt="SmartHire" style={logoStyle} />
 
-      <div className="space-y-4">
-        <div>
-          <label className="text-sm text-gray-600">Name</label>
-          <input
-            type="text"
-            placeholder="Name"
-            className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2
-                       focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
+        <h2 style={title}>Register</h2>
 
-        <div>
-          <label className="text-sm text-gray-600">Email</label>
-          <input
-            type="email"
-            placeholder="Email"
-            className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2
-                       focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
+        <label style={label}>Name</label>
+        <input type="text" placeholder="Name" style={input} />
 
-        <div>
-          <label className="text-sm text-gray-600">Password</label>
-          <input
-            type="password"
-            placeholder="Password"
-            className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2
-                       focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
+        <label style={label}>Email</label>
+        <input type="email" placeholder="Email" style={input} />
 
-        <button
-          className="w-full bg-blue-600 hover:bg-blue-700
-                     text-white py-2 rounded-md font-medium transition"
-        >
-          Register
-        </button>
+        <label style={label}>Password</label>
+        <input type="password" placeholder="Password" style={input} />
+
+        <button style={primaryBtn}>Register</button>
+
+        <p style={footerText}>
+          Already have an account?{" "}
+          <Link to="/login" style={link}>
+            Login
+          </Link>
+        </p>
       </div>
-
-      <p className="text-sm mt-4 text-center">
-        Already have an account?{" "}
-        <Link
-          to="/login"
-          className="text-blue-600 hover:underline font-medium"
-        >
-          Login
-        </Link>
-      </p>
     </div>
   );
 }
+
+/* ================= STYLES ================= */
+
+const page = {
+  minHeight: "100vh",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  background: "#f3f4f6",
+};
+
+const card = {
+  width: "100%",
+  maxWidth: "420px",
+  background: "#ffffff",
+  padding: "32px",
+  borderRadius: "14px",
+  boxShadow: "0 10px 30px rgba(0,0,0,0.1)",
+};
+
+const logoStyle = {
+  height: "36px",
+  display: "block",
+  margin: "0 auto 20px",
+};
+
+const title = {
+  textAlign: "center",
+  fontSize: "22px",
+  fontWeight: 700,
+  marginBottom: "24px",
+};
+
+const label = {
+  display: "block",
+  fontSize: "14px",
+  marginBottom: "6px",
+  color: "#374151",
+};
+
+const input = {
+  width: "100%",
+  padding: "10px 12px",
+  borderRadius: "8px",
+  border: "1px solid #d1d5db",
+  marginBottom: "16px",
+  fontSize: "14px",
+};
+
+const primaryBtn = {
+  width: "100%",
+  padding: "12px",
+  background: "#2563eb",
+  color: "#ffffff",
+  border: "none",
+  borderRadius: "8px",
+  fontSize: "15px",
+  fontWeight: 600,
+  cursor: "pointer",
+};
+
+const footerText = {
+  marginTop: "16px",
+  textAlign: "center",
+  fontSize: "14px",
+  color: "#6b7280",
+};
+
+const link = {
+  color: "#2563eb",
+  fontWeight: 500,
+  textDecoration: "none",
+};

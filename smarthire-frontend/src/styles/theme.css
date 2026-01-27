@@ -1,0 +1,12 @@
+:root {
+    --bg-page: #f4f6f9;
+    --bg-card: #ffffff;
+    --primary: #2563eb;
+    --secondary: #1e40af;
+  
+    --text-main: #111827;
+    --text-muted: #6b7280;
+  
+    --radius: 12px;
+    --shadow: 0 8px 24px rgba(0,0,0,0.08);
+  }
