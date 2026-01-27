@@ -1,10 +1,9 @@
 import { Navigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
 
 export default function RoleRoute({ role, children }) {
-  const { user } = useAuth();
+  const userRole = localStorage.getItem("role");
 
-  if (!user || user.role !== role) {
+  if (userRole !== role) {
     return <Navigate to="/login" replace />;
   }
 

@@ -11,21 +11,22 @@ export default function Login() {
   const handleLogin = (e) => {
     e.preventDefault();
 
-    // 🔐 TEMP AUTH LOGIC (replace with backend later)
-    const fakeResponse = {
-      token: "dummy-jwt-token",
-      role: email.includes("recruiter") ? "RECRUITER" : "CANDIDATE",
-    };
+    // 🔐 TEMP LOGIN LOGIC
+    // recruiter email → recruiter dashboard
+    // anything else → candidate dashboard
+    const role = email.toLowerCase().includes("recruiter")
+      ? "RECRUITER"
+      : "CANDIDATE";
 
-    // Save auth data
-    localStorage.setItem("token", fakeResponse.token);
-    localStorage.setItem("role", fakeResponse.role);
+    // ✅ STORE AUTH DATA
+    localStorage.setItem("token", "dummy-jwt-token");
+    localStorage.setItem("role", role);
 
-    // ✅ REDIRECT BASED ON ROLE
-    if (fakeResponse.role === "RECRUITER") {
-      navigate("/recruiter");
+    // ✅ REDIRECT
+    if (role === "RECRUITER") {
+      navigate("/recruiter", { replace: true });
     } else {
-      navigate("/candidate");
+      navigate("/candidate", { replace: true });
     }
   };
 
