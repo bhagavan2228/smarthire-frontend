@@ -4,7 +4,7 @@ import { useAuth } from "../context/AuthContext";
 export default function RoleRoute({ role, children }) {
   const { user } = useAuth();
 
-  if (user?.role !== role) {
+  if (!user || user.role !== role) {
     return <Navigate to="/login" replace />;
   }
 
