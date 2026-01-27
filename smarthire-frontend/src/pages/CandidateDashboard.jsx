@@ -6,13 +6,13 @@ export default function CandidateDashboard() {
   const applications = [
     {
       id: 1,
-      job: "Frontend Developer",
+      role: "Frontend Developer",
       company: "TechCorp",
       status: "APPLIED",
     },
     {
       id: 2,
-      job: "Backend Engineer",
+      role: "Backend Engineer",
       company: "InnovateX",
       status: "INTERVIEW",
     },
@@ -25,38 +25,56 @@ export default function CandidateDashboard() {
         <div>
           <h1 style={title}>Candidate Dashboard</h1>
           <p style={subtitle}>
-            Track your applications and plan your next steps
+            Track your job applications and next steps
           </p>
         </div>
 
-        <button style={primaryBtn} onClick={() => navigate("/browse-jobs")}>
+        <button
+          style={primaryBtn}
+          onClick={() => navigate("/browse-jobs")}
+        >
           Browse Jobs
         </button>
       </div>
 
-      {/* ================= STATS ================= */}
+      {/* ================= STATS CARDS ================= */}
       <div style={statsGrid}>
-        <StatCard title="Applied" value="2" color="#2563eb" />
-        <StatCard title="Interviews" value="1" color="#f59e0b" />
-        <StatCard title="Offers" value="0" color="#16a34a" />
+        <StatCard icon="📨" label="Applied" value="2" color="#2563eb" />
+        <StatCard icon="🎯" label="Interviews" value="1" color="#f59e0b" />
+        <StatCard icon="🏆" label="Offers" value="0" color="#16a34a" />
       </div>
 
-      {/* ================= RECENT ACTIVITY ================= */}
-      <section style={section}>
+      {/* ================= RECENT APPLICATIONS ================= */}
+      <section>
         <h2 style={sectionTitle}>Recent Applications</h2>
 
         {applications.length === 0 ? (
-          <EmptyState
-            message="You haven’t applied to any jobs yet."
-            actionLabel="Start Applying"
-            onAction={() => navigate("/browse-jobs")}
-          />
+          <div style={emptyState}>
+            <p style={mutedText}>
+              You haven’t applied to any jobs yet.
+            </p>
+            <button
+              style={primaryBtn}
+              onClick={() => navigate("/browse-jobs")}
+            >
+              Start Applying
+            </button>
+          </div>
         ) : (
-          <div style={list}>
+          <div style={applicationsGrid}>
             {applications.map((app) => (
-              <div key={app.id} style={applicationCard}>
+              <div
+                key={app.id}
+                style={applicationCard}
+                onMouseEnter={(e) =>
+                  (e.currentTarget.style.transform = "translateY(-4px)")
+                }
+                onMouseLeave={(e) =>
+                  (e.currentTarget.style.transform = "translateY(0)")
+                }
+              >
                 <div>
-                  <h4 style={{ marginBottom: "4px" }}>{app.job}</h4>
+                  <h4 style={{ marginBottom: "4px" }}>{app.role}</h4>
                   <p style={mutedText}>{app.company}</p>
                 </div>
                 <StatusBadge status={app.status} />
@@ -65,42 +83,20 @@ export default function CandidateDashboard() {
           </div>
         )}
       </section>
-
-      {/* ================= WHAT’S NEXT ================= */}
-      <section style={section}>
-        <h2 style={sectionTitle}>What’s next?</h2>
-
-        <div style={nextCard}>
-          {applications.length === 0 ? (
-            <p style={mutedText}>
-              Apply to jobs to start tracking your progress here.
-            </p>
-          ) : (
-            <p style={mutedText}>
-              Keep an eye on your applications. Recruiters may reach out for
-              interviews soon.
-            </p>
-          )}
-
-          <button
-            style={secondaryBtn}
-            onClick={() => navigate("/candidate/applications")}
-          >
-            View All Applications
-          </button>
-        </div>
-      </section>
     </div>
   );
 }
 
 /* ================= COMPONENTS ================= */
 
-function StatCard({ title, value, color }) {
+function StatCard({ icon, label, value, color }) {
   return (
     <div style={statCard}>
-      <p style={mutedText}>{title}</p>
-      <h2 style={{ fontSize: "32px", fontWeight: 700, color }}>{value}</h2>
+      <span style={iconStyle}>{icon}</span>
+      <p style={mutedText}>{label}</p>
+      <h2 style={{ fontSize: "30px", fontWeight: 700, color }}>
+        {value}
+      </h2>
     </div>
   );
 }
@@ -129,17 +125,6 @@ function StatusBadge({ status }) {
   );
 }
 
-function EmptyState({ message, actionLabel, onAction }) {
-  return (
-    <div style={emptyState}>
-      <p style={mutedText}>{message}</p>
-      <button style={primaryBtn} onClick={onAction}>
-        {actionLabel}
-      </button>
-    </div>
-  );
-}
-
 /* ================= STYLES ================= */
 
 const header = {
@@ -163,17 +148,6 @@ const primaryBtn = {
   fontWeight: 600,
 };
 
-const secondaryBtn = {
-  marginTop: "12px",
-  padding: "10px 16px",
-  background: "#e5e7eb",
-  color: "#111827",
-  border: "none",
-  borderRadius: "8px",
-  cursor: "pointer",
-  fontWeight: 600,
-};
-
 const statsGrid = {
   display: "grid",
   gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
@@ -186,39 +160,40 @@ const statCard = {
   padding: "22px",
   borderRadius: "12px",
   boxShadow: "0 8px 24px rgba(0,0,0,0.08)",
+  textAlign: "center",
 };
 
-const section = { marginBottom: "32px" };
-const sectionTitle = { marginBottom: "12px", fontSize: "18px" };
+const iconStyle = {
+  fontSize: "22px",
+  marginBottom: "8px",
+};
 
-const list = {
+const sectionTitle = {
+  fontSize: "18px",
+  marginBottom: "12px",
+};
+
+const applicationsGrid = {
   display: "grid",
-  gap: "12px",
+  gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+  gap: "16px",
 };
 
 const applicationCard = {
   background: "#ffffff",
-  padding: "16px",
-  borderRadius: "10px",
+  padding: "18px",
+  borderRadius: "12px",
   boxShadow: "0 6px 16px rgba(0,0,0,0.06)",
   display: "flex",
   justifyContent: "space-between",
   alignItems: "center",
-};
-
-const nextCard = {
-  background: "#ffffff",
-  padding: "20px",
-  borderRadius: "12px",
-  boxShadow: "0 8px 24px rgba(0,0,0,0.08)",
+  transition: "all 0.2s ease",
 };
 
 const emptyState = {
   background: "#ffffff",
-  padding: "24px",
+  padding: "32px",
   borderRadius: "12px",
   boxShadow: "0 8px 24px rgba(0,0,0,0.08)",
-  display: "flex",
-  justifyContent: "space-between",
-  alignItems: "center",
+  textAlign: "center",
 };
