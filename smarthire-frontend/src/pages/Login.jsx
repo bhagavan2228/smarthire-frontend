@@ -1,54 +1,64 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 export default function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  const handleLogin = () => {
-    login({ role: "CANDIDATE" });
-    navigate("/candidate");
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // 🔴 TEMP MOCK LOGIN (until backend ready)
+    let role = "CANDIDATE";
+    if (email.includes("recruiter")) role = "RECRUITER";
+
+    const userData = {
+      email,
+      role,
+    };
+
+    login(userData);
+
+    // ✅ REDIRECT BASED ON ROLE
+    if (role === "RECRUITER") {
+      navigate("/recruiter", { replace: true });
+    } else {
+      navigate("/candidate", { replace: true });
+    }
   };
 
   return (
-    <div className="max-w-sm mx-auto">
-      <h2 className="text-xl font-semibold mb-6">Login</h2>
+    <div style={{ maxWidth: "400px", margin: "80px auto" }}>
+      <h2>Login</h2>
 
-      <div className="space-y-4">
-        <div>
-          <label className="text-sm text-gray-600">Email</label>
+      <form onSubmit={handleSubmit}>
+        <div style={{ marginBottom: "12px" }}>
+          <label>Email</label>
           <input
-            className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2
-                       focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            style={{ width: "100%" }}
           />
         </div>
 
-        <div>
-          <label className="text-sm text-gray-600">Password</label>
+        <div style={{ marginBottom: "12px" }}>
+          <label>Password</label>
           <input
             type="password"
-            className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2
-                       focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            style={{ width: "100%" }}
           />
         </div>
 
-        <button
-          onClick={handleLogin}
-          className="w-full bg-blue-600 hover:bg-blue-700
-                     text-white py-2 rounded-md font-medium transition"
-        >
-          Login
-        </button>
-      </div>
-
-      <p className="text-sm mt-4">
-        Don&apos;t have an account?{" "}
-        <Link to="/register" className="text-blue-600 hover:underline font-medium">
-          Register
-        </Link>
-      </p>
+        <button type="submit">Login</button>
+      </form>
     </div>
   );
 }
