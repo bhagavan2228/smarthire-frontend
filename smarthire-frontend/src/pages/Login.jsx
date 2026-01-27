@@ -6,13 +6,12 @@ export default function Login() {
   const navigate = useNavigate();
 
   const handleLogin = () => {
-    // TEMP mock login (backend will replace this)
     login({ role: "CANDIDATE" });
     navigate("/candidate");
   };
 
   return (
-    <div>
+    <div className="max-w-sm mx-auto">
       <h2 className="text-xl font-semibold mb-6">Login</h2>
 
       <div className="space-y-4">
