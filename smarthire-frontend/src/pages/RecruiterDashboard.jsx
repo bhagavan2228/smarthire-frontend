@@ -4,16 +4,8 @@ export default function RecruiterDashboard() {
   const navigate = useNavigate();
 
   const jobs = [
-    {
-      id: 1,
-      title: "Frontend Developer",
-      applicants: 8,
-    },
-    {
-      id: 2,
-      title: "Backend Engineer",
-      applicants: 5,
-    },
+    { id: 1, title: "Frontend Developer", applicants: 8 },
+    { id: 2, title: "Backend Engineer", applicants: 5 },
   ];
 
   return (
@@ -52,9 +44,7 @@ export default function RecruiterDashboard() {
             <div key={job.id} style={jobCard}>
               <div>
                 <h4 style={{ marginBottom: "6px" }}>{job.title}</h4>
-                <p style={mutedText}>
-                  {job.applicants} applicants
-                </p>
+                <p style={mutedText}>{job.applicants} applicants</p>
               </div>
 
               <button
@@ -184,4 +174,5 @@ const pipelineCard = {
 const pipelineItem = {
   display: "flex",
   flexDirection: "column",
-  alignItems: "
+  alignItems: "center", // ✅ FIXED
+};
