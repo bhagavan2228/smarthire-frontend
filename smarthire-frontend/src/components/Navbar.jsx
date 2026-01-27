@@ -1,25 +1,37 @@
-import { NavLink } from "react-router-dom";
-import logo from "../assets/logo.svg";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
-export default function Sidebar() {
-  const link = ({ isActive }) =>
-    `flex items-center gap-3 px-4 py-2 rounded-md text-sm ${
-      isActive ? "bg-blue-600 text-white" : "text-gray-300 hover:bg-blue-700"
-    }`;
+export default function Navbar() {
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
 
   return (
-    <aside className="w-64 bg-gradient-to-b from-blue-900 to-blue-700 text-white p-4">
-      <div className="flex items-center gap-3 mb-8 px-4">
-        <img src={logo} className="h-8 w-8" />
-        <span className="font-bold">SmartHire</span>
+    <header className="h-14 bg-white border-b shadow-sm flex items-center justify-between px-6">
+      
+      {/* Left side */}
+      <h1 className="text-lg font-semibold text-gray-700">
+        Dashboard
+      </h1>
+
+      {/* Right side */}
+      <div className="flex items-center gap-4">
+        <span className="text-sm text-gray-600">
+          Welcome
+        </span>
+
+        <button
+          onClick={handleLogout}
+          className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md text-sm transition"
+        >
+          Logout
+        </button>
       </div>
 
-      <nav className="space-y-2">
-        <NavLink to="/recruiter" className={link}>Dashboard</NavLink>
-        <NavLink to="/recruiter/post-job" className={link}>Post Job</NavLink>
-        <NavLink to="/recruiter/manage-jobs" className={link}>Manage Jobs</NavLink>
-        <NavLink to="/recruiter/view-applicants" className={link}>View Applicants</NavLink>
-      </nav>
-    </aside>
+    </header>
   );
 }
