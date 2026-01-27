@@ -1,48 +1,34 @@
-import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 export default function Navbar() {
-  const { user, logout } = useAuth();
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    logout();
-    navigate("/login", { replace: true });
-  };
+  const { logout } = useAuth();
 
   return (
-    <header
-      style={{
-        height: "60px",
-        background: "#ffffff",
-        borderBottom: "1px solid #e5e7eb",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        padding: "0 24px",
-      }}
-    >
-      <div style={{ fontWeight: 700, fontSize: "18px" }}>
-        SmartHire
-      </div>
-
-      <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-        <span style={{ color: "#555" }}>
-          {user?.email}
-        </span>
-        <button
-          onClick={handleLogout}
-          style={{
-            padding: "6px 12px",
-            borderRadius: "6px",
-            border: "1px solid #ddd",
-            background: "#f8f9fa",
-            cursor: "pointer",
-          }}
-        >
-          Logout
-        </button>
-      </div>
+    <header style={styles.nav}>
+      <h3>Dashboard</h3>
+      <button onClick={logout} style={styles.logout}>
+        Logout
+      </button>
     </header>
   );
 }
+
+const styles = {
+  nav: {
+    height: "56px",
+    background: "#fff",
+    borderBottom: "1px solid #e5e7eb",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    padding: "0 24px",
+  },
+  logout: {
+    background: "#ef4444",
+    color: "#fff",
+    border: "none",
+    padding: "8px 14px",
+    borderRadius: "6px",
+    cursor: "pointer",
+  },
+};

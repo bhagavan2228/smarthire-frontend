@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import logo from "../assets/logo-full.svg";
+import logo from "../assets/logo.svg";
 import { useAuth } from "../context/AuthContext";
 
 export default function Login() {
@@ -9,48 +9,54 @@ export default function Login() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [role, setRole] = useState("CANDIDATE");
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // TEMP login simulation
     login({
-      role: "CANDIDATE", // or RECRUITER
       email,
+      role,
     });
 
-    navigate("/candidate");
+    navigate(role === "RECRUITER" ? "/recruiter" : "/candidate");
   };
 
   return (
     <div style={styles.page}>
       <div style={styles.card}>
-        <div style={styles.logoWrap}>
-          <img src={logo} alt="SmartHire" style={styles.logo} />
-        </div>
+        <img src={logo} alt="SmartHire" style={styles.logo} />
 
         <h2 style={styles.title}>Login</h2>
 
-        <form onSubmit={handleSubmit} style={styles.form}>
+        <form onSubmit={handleSubmit}>
           <label style={styles.label}>Email</label>
           <input
             type="email"
-            placeholder="Email"
+            required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             style={styles.input}
-            required
           />
 
           <label style={styles.label}>Password</label>
           <input
             type="password"
-            placeholder="Password"
+            required
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             style={styles.input}
-            required
           />
+
+          <label style={styles.label}>Login as</label>
+          <select
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
+            style={styles.input}
+          >
+            <option value="CANDIDATE">Candidate</option>
+            <option value="RECRUITER">Recruiter</option>
+          </select>
 
           <button type="submit" style={styles.button}>
             Login
@@ -58,81 +64,64 @@ export default function Login() {
         </form>
 
         <p style={styles.footer}>
-          Don&apos;t have an account?{" "}
-          <Link to="/register" style={styles.link}>
-            Register
-          </Link>
+          Don’t have an account? <Link to="/register">Register</Link>
         </p>
       </div>
     </div>
   );
 }
 
-/* ================= STYLES ================= */
-
 const styles = {
   page: {
     minHeight: "100vh",
-    background: "#f4f6f9",
+    background: "#f1f5f9",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
   },
   card: {
     width: "100%",
-    maxWidth: "420px",
-    background: "#ffffff",
+    maxWidth: "380px",
+    background: "#fff",
     padding: "32px",
     borderRadius: "10px",
-    boxShadow: "0 10px 30px rgba(0,0,0,0.08)",
-  },
-  logoWrap: {
-    textAlign: "center",
-    marginBottom: "16px",
+    boxShadow: "0 10px 25px rgba(0,0,0,0.08)",
   },
   logo: {
+    display: "block",
+    margin: "0 auto 16px",
     height: "36px",
   },
   title: {
     textAlign: "center",
-    marginBottom: "24px",
-    fontSize: "22px",
-    fontWeight: "600",
-  },
-  form: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "12px",
+    marginBottom: "20px",
   },
   label: {
+    display: "block",
     fontSize: "14px",
-    fontWeight: "500",
+    marginBottom: "6px",
+    marginTop: "14px",
   },
   input: {
-    padding: "10px 12px",
+    width: "100%",
+    padding: "10px",
     borderRadius: "6px",
-    border: "1px solid #dcdfe4",
-    fontSize: "14px",
+    border: "1px solid #cbd5e1",
   },
   button: {
-    marginTop: "16px",
+    width: "100%",
+    marginTop: "20px",
     padding: "12px",
-    borderRadius: "6px",
-    border: "none",
     background: "#2563eb",
-    color: "#ffffff",
-    fontSize: "15px",
-    fontWeight: "600",
+    color: "#fff",
+    border: "none",
+    borderRadius: "6px",
+    fontWeight: "bold",
     cursor: "pointer",
   },
   footer: {
-    marginTop: "20px",
+    marginTop: "16px",
     textAlign: "center",
     fontSize: "14px",
-  },
-  link: {
-    color: "#2563eb",
-    textDecoration: "none",
-    fontWeight: "500",
   },
 };
