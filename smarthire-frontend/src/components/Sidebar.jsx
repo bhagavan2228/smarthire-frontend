@@ -3,51 +3,64 @@ import logo from "../assets/logo.svg";
 
 export default function Sidebar() {
   return (
-    <aside style={styles.sidebar}>
-      <img src={logo} alt="SmartHire" style={styles.logo} />
+    <aside style={sidebar}>
+      <img src={logo} alt="SmartHire" style={logoStyle} />
 
-      <nav>
-        <NavItem to="/candidate">Dashboard</NavItem>
-        <NavItem to="/browse-jobs">Browse Jobs</NavItem>
-        <NavItem to="/my-applications">My Applications</NavItem>
-        <NavItem to="/manage-jobs">Manage Jobs</NavItem>
-        <NavItem to="/view-applicants">View Applicants</NavItem>
-      </nav>
+      <NavItem to="/candidate" icon="🏠" label="Dashboard" />
+      <NavItem to="/browse-jobs" icon="💼" label="Browse Jobs" />
+      <NavItem to="/candidate/applications" icon="📄" label="My Applications" />
+
+      <div style={divider} />
+
+      <NavItem to="/recruiter" icon="🧑‍💼" label="Recruiter Dashboard" />
+      <NavItem to="/view-applicants" icon="👥" label="View Applicants" />
     </aside>
   );
 }
 
-function NavItem({ to, children }) {
+function NavItem({ to, icon, label }) {
   return (
     <NavLink
       to={to}
       style={({ isActive }) => ({
-        ...styles.link,
+        ...navItem,
         background: isActive ? "#1e40af" : "transparent",
       })}
     >
-      {children}
+      <span style={{ marginRight: "10px" }}>{icon}</span>
+      {label}
     </NavLink>
   );
 }
 
-const styles = {
-  sidebar: {
-    width: "220px",
-    background: "#0f172a",
-    color: "#fff",
-    padding: "20px",
-  },
-  logo: {
-    height: "30px",
-    marginBottom: "24px",
-  },
-  link: {
-    display: "block",
-    padding: "10px",
-    borderRadius: "6px",
-    color: "#fff",
-    textDecoration: "none",
-    marginBottom: "6px",
-  },
+/* ---------------- Styles ---------------- */
+
+const sidebar = {
+  width: "220px",
+  background: "#0f172a",
+  color: "#ffffff",
+  padding: "20px",
+  minHeight: "100vh",
+};
+
+const logoStyle = {
+  height: "32px",
+  marginBottom: "24px",
+};
+
+const navItem = {
+  display: "flex",
+  alignItems: "center",
+  padding: "10px",
+  borderRadius: "8px",
+  color: "#ffffff",
+  textDecoration: "none",
+  marginBottom: "6px",
+  fontSize: "14px",
+};
+
+const divider = {
+  height: "1px",
+  background: "#334155",
+  margin: "14px 0",
 };

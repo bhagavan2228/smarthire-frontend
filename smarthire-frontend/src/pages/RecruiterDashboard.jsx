@@ -1,13 +1,14 @@
 export default function RecruiterDashboard() {
   return (
-    <div style={styles.wrapper}>
-      <h2>Recruiter Dashboard</h2>
+    <div>
+      <h1 style={title}>Recruiter Dashboard</h1>
+      <p style={subtitle}>Hiring overview and pipeline status</p>
 
-      <div style={styles.cards}>
+      <div style={grid}>
         <Card title="Total Jobs" value="5" />
-        <Card title="Applications" value="15" />
-        <Card title="Interviews" value="3" />
-        <Card title="Hires" value="1" />
+        <Card title="Applications" value="18" />
+        <Card title="Interviews" value="4" />
+        <Card title="Hires" value="2" />
       </div>
     </div>
   );
@@ -15,30 +16,28 @@ export default function RecruiterDashboard() {
 
 function Card({ title, value }) {
   return (
-    <div style={styles.card}>
-      <h4>{title}</h4>
-      <p style={styles.value}>{value}</p>
+    <div style={card}>
+      <p style={cardTitle}>{title}</p>
+      <h2 style={cardValue}>{value}</h2>
     </div>
   );
 }
 
-const styles = {
-  wrapper: { padding: "24px" },
-  cards: {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))",
-    gap: "16px",
-    marginTop: "20px",
-  },
-  card: {
-    background: "#fff",
-    padding: "20px",
-    borderRadius: "10px",
-    boxShadow: "0 6px 16px rgba(0,0,0,0.08)",
-  },
-  value: {
-    fontSize: "28px",
-    fontWeight: "bold",
-    marginTop: "8px",
-  },
+const title = { fontSize: "28px", fontWeight: 700 };
+const subtitle = { color: "#6b7280", marginBottom: "24px" };
+
+const grid = {
+  display: "grid",
+  gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
+  gap: "16px",
 };
+
+const card = {
+  background: "#ffffff",
+  padding: "22px",
+  borderRadius: "10px",
+  boxShadow: "0 6px 16px rgba(0,0,0,0.08)",
+};
+
+const cardTitle = { color: "#6b7280", marginBottom: "8px" };
+const cardValue = { fontSize: "30px", fontWeight: 700 };
