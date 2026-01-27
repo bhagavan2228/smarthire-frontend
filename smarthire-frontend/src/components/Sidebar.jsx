@@ -4,42 +4,104 @@ import logo from "../assets/logo.svg";
 export default function Sidebar() {
   return (
     <aside style={sidebar}>
-      <img src={logo} style={{ height: 30, marginBottom: 30 }} />
+      {/* Logo */}
+      <div style={logoWrap}>
+        <img src={logo} alt="SmartHire" style={logoStyle} />
+      </div>
 
-      <Nav to="/candidate">Dashboard</Nav>
-      <Nav to="/browse-jobs">Browse Jobs</Nav>
-      <Nav to="/candidate/applications">My Applications</Nav>
+      {/* Candidate */}
+      <NavItem to="/candidate" icon="🏠" label="Dashboard" />
+      <NavItem to="/browse-jobs" icon="💼" label="Browse Jobs" />
+      <NavItem to="/candidate/applications" icon="📄" label="My Applications" />
 
-      <div style={{ marginTop: 30 }} />
+      <Divider />
 
-      <Nav to="/recruiter">Recruiter</Nav>
-      <Nav to="/view-applicants">Applicants</Nav>
+      {/* Recruiter */}
+      <NavItem to="/recruiter" icon="🧑‍💼" label="Recruiter Dashboard" />
+      <NavItem to="/view-applicants" icon="👥" label="Applicants" />
     </aside>
   );
 }
 
-function Nav({ to, children }) {
+/* ================= NAV ITEM ================= */
+
+function NavItem({ to, icon, label }) {
   return (
     <NavLink
       to={to}
       style={({ isActive }) => ({
-        padding: "10px 14px",
-        borderRadius: 8,
-        color: "#fff",
-        textDecoration: "none",
-        background: isActive ? "var(--secondary)" : "transparent",
-        display: "block",
-        marginBottom: 6,
+        ...navItem,
+        background: isActive ? "#1e40af" : "transparent",
+        boxShadow: isActive
+          ? "inset 4px 0 0 #60a5fa"
+          : "none",
       })}
+      onMouseEnter={(e) => {
+        if (!e.currentTarget.classList.contains("active")) {
+          e.currentTarget.style.background = "#1f2937";
+        }
+      }}
+      onMouseLeave={(e) => {
+        if (!e.currentTarget.classList.contains("active")) {
+          e.currentTarget.style.background = "transparent";
+        }
+      }}
+      className={({ isActive }) => (isActive ? "active" : "")}
     >
-      {children}
+      <span style={iconStyle}>{icon}</span>
+      <span>{label}</span>
     </NavLink>
   );
 }
 
+/* ================= DIVIDER ================= */
+
+function Divider() {
+  return <div style={divider} />;
+}
+
+/* ================= STYLES ================= */
+
 const sidebar = {
-  width: 240,
+  width: "240px",
   background: "#0f172a",
-  color: "#fff",
-  padding: 20,
+  color: "#ffffff",
+  padding: "20px 14px",
+  minHeight: "100vh",
+  display: "flex",
+  flexDirection: "column",
+};
+
+const logoWrap = {
+  display: "flex",
+  justifyContent: "center",
+  marginBottom: "28px",
+};
+
+const logoStyle = {
+  height: "34px",
+};
+
+const navItem = {
+  display: "flex",
+  alignItems: "center",
+  gap: "12px",
+  padding: "12px 14px",
+  borderRadius: "10px",
+  color: "#e5e7eb",
+  textDecoration: "none",
+  fontSize: "14px",
+  fontWeight: 500,
+  marginBottom: "6px",
+  transition: "all 0.2s ease",
+};
+
+const iconStyle = {
+  fontSize: "18px",
+};
+
+const divider = {
+  height: "1px",
+  background: "#334155",
+  margin: "16px 0",
 };

@@ -1,34 +1,33 @@
-import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
+import { useTheme } from "../context/ThemeContext";
 
 export default function Navbar() {
-  const { logout } = useAuth();
+  const navigate = useNavigate();
+  const { dark, toggleTheme } = useTheme();
+
+  const logout = () => {
+    localStorage.clear();
+    navigate("/login");
+  };
 
   return (
-    <header style={styles.nav}>
-      <h3>Dashboard</h3>
-      <button onClick={logout} style={styles.logout}>
-        Logout
-      </button>
-    </header>
+    <div style={nav}>
+      <h2>SmartHire</h2>
+
+      <div style={{ display: "flex", gap: "12px" }}>
+        <button onClick={toggleTheme}>
+          {dark ? "☀️ Light" : "🌙 Dark"}
+        </button>
+        <button onClick={logout}>Logout</button>
+      </div>
+    </div>
   );
 }
 
-const styles = {
-  nav: {
-    height: "56px",
-    background: "#fff",
-    borderBottom: "1px solid #e5e7eb",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    padding: "0 24px",
-  },
-  logout: {
-    background: "#ef4444",
-    color: "#fff",
-    border: "none",
-    padding: "8px 14px",
-    borderRadius: "6px",
-    cursor: "pointer",
-  },
+const nav = {
+  display: "flex",
+  justifyContent: "space-between",
+  padding: "16px 24px",
+  background: "#fff",
+  borderBottom: "1px solid #e5e7eb",
 };
