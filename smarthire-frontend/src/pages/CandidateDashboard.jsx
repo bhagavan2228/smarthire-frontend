@@ -1,13 +1,8 @@
 export default function CandidateDashboard() {
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-4">
-        Candidate Dashboard
-      </h1>
-
-      <div className="bg-white p-4 rounded-lg shadow">
-        Welcome to SmartHire
-      </div>
+    <div className="space-y-4">
+      <h1 className="text-2xl font-bold">Candidate Dashboard</h1>
+      <p className="text-gray-600">Welcome to SmartHire</p>
     </div>
   );
 }
