@@ -1,106 +1,170 @@
+import { useState } from "react";
+
 export default function ViewApplicants() {
+  const [loading] = useState(false);
+
   const applicants = [
     {
       id: 1,
       name: "Alice Johnson",
-      role: "Frontend Developer",
-      status: "Applied",
+      job: "Frontend Developer",
+      status: "APPLIED",
     },
     {
       id: 2,
       name: "Mark Davis",
-      role: "Backend Engineer",
-      status: "Shortlisted",
+      job: "Backend Engineer",
+      status: "INTERVIEW",
     },
     {
       id: 3,
-      name: "John Smith",
-      role: "UI/UX Designer",
-      status: "Interview",
+      name: "Sara Khan",
+      job: "UI/UX Designer",
+      status: "SHORTLISTED",
     },
   ];
 
+  if (loading) {
+    return <p style={mutedText}>Loading applicants…</p>;
+  }
+
+  if (applicants.length === 0) {
+    return (
+      <div style={emptyState}>
+        <h3>No applicants yet</h3>
+        <p style={mutedText}>
+          Candidates will appear here once they apply.
+        </p>
+      </div>
+    );
+  }
+
   return (
-    <div style={styles.container}>
-      <h2>Manage Applicants</h2>
+    <div>
+      {/* ================= HEADER ================= */}
+      <div style={header}>
+        <div>
+          <h1 style={title}>Manage Applicants</h1>
+          <p style={mutedText}>
+            Review and move candidates through the pipeline
+          </p>
+        </div>
+      </div>
 
-      <table style={styles.table}>
-        <thead>
-          <tr>
-            <th>Candidate</th>
-            <th>Role</th>
-            <th>Status</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {applicants.map((a) => (
-            <tr key={a.id}>
-              <td>{a.name}</td>
-              <td>{a.role}</td>
-              <td>
-                <span style={{ ...styles.badge, ...badgeColor(a.status) }}>
-                  {a.status}
-                </span>
-              </td>
-              <td>
-                <button style={styles.primaryBtn}>Shortlist</button>
-                <button style={styles.secondaryBtn}>Reject</button>
-              </td>
+      {/* ================= TABLE ================= */}
+      <div style={tableWrapper}>
+        <table style={table}>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Job</th>
+              <th>Status</th>
+              <th align="right">Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+
+          <tbody>
+            {applicants.map((a) => (
+              <tr key={a.id} style={row}>
+                <td>{a.name}</td>
+                <td>{a.job}</td>
+                <td>
+                  <StatusBadge status={a.status} />
+                </td>
+                <td align="right">
+                  <button style={shortlistBtn}>Shortlist</button>
+                  <button style={rejectBtn}>Reject</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
 
-const badgeColor = (status) => {
-  switch (status) {
-    case "Shortlisted":
-      return { background: "#dcfce7", color: "#166534" };
-    case "Interview":
-      return { background: "#dbeafe", color: "#1e40af" };
-    default:
-      return { background: "#f3f4f6", color: "#374151" };
-  }
+/* ================= COMPONENTS ================= */
+
+function StatusBadge({ status }) {
+  const map = {
+    APPLIED: { bg: "#e0e7ff", color: "#1e40af" },
+    SHORTLISTED: { bg: "#dcfce7", color: "#166534" },
+    INTERVIEW: { bg: "#fef3c7", color: "#92400e" },
+    REJECTED: { bg: "#fee2e2", color: "#991b1b" },
+  };
+
+  return (
+    <span
+      style={{
+        padding: "6px 12px",
+        borderRadius: "999px",
+        fontSize: "12px",
+        fontWeight: 600,
+        background: map[status].bg,
+        color: map[status].color,
+      }}
+    >
+      {status}
+    </span>
+  );
+}
+
+/* ================= STYLES ================= */
+
+const header = {
+  marginBottom: "24px",
 };
 
-const styles = {
-  container: {
-    padding: "24px",
-  },
-  table: {
-    width: "100%",
-    borderCollapse: "collapse",
-    marginTop: "16px",
-    background: "#fff",
-    boxShadow: "0 4px 12px rgba(0,0,0,0.06)",
-    borderRadius: "8px",
-    overflow: "hidden",
-  },
-  badge: {
-    padding: "6px 10px",
-    borderRadius: "12px",
-    fontSize: "12px",
-    fontWeight: "bold",
-  },
-  primaryBtn: {
-    background: "#2563eb",
-    color: "#fff",
-    border: "none",
-    padding: "6px 10px",
-    borderRadius: "6px",
-    marginRight: "8px",
-    cursor: "pointer",
-  },
-  secondaryBtn: {
-    background: "#ef4444",
-    color: "#fff",
-    border: "none",
-    padding: "6px 10px",
-    borderRadius: "6px",
-    cursor: "pointer",
-  },
+const title = {
+  fontSize: "26px",
+  fontWeight: 700,
+};
+
+const mutedText = {
+  color: "#6b7280",
+  fontSize: "14px",
+};
+
+const tableWrapper = {
+  background: "#ffffff",
+  borderRadius: "12px",
+  boxShadow: "0 8px 24px rgba(0,0,0,0.08)",
+  overflow: "hidden",
+};
+
+const table = {
+  width: "100%",
+  borderCollapse: "collapse",
+};
+
+const row = {
+  transition: "background 0.2s ease",
+};
+
+const shortlistBtn = {
+  padding: "6px 12px",
+  background: "#2563eb",
+  color: "#fff",
+  border: "none",
+  borderRadius: "6px",
+  cursor: "pointer",
+  marginRight: "8px",
+};
+
+const rejectBtn = {
+  padding: "6px 12px",
+  background: "#ef4444",
+  color: "#fff",
+  border: "none",
+  borderRadius: "6px",
+  cursor: "pointer",
+};
+
+const emptyState = {
+  background: "#fff",
+  padding: "40px",
+  borderRadius: "12px",
+  boxShadow: "0 8px 24px rgba(0,0,0,0.08)",
+  textAlign: "center",
 };
