@@ -1,59 +1,57 @@
 import { NavLink } from "react-router-dom";
-import logo from "../assets/logo.svg";
 
 export default function Sidebar() {
+  const linkStyle = ({ isActive }) => ({
+    display: "block",
+    padding: "10px 14px",
+    borderRadius: "6px",
+    marginBottom: "6px",
+    textDecoration: "none",
+    fontWeight: 500,
+    background: isActive ? "#e7f0ff" : "transparent",
+    color: isActive ? "#0d6efd" : "#333",
+  });
+
   return (
-    <aside className="w-64 min-h-screen bg-gradient-to-b from-blue-900 to-blue-700 text-white flex flex-col">
-      
-      {/* Logo */}
-      <div className="flex items-center gap-3 px-6 py-5 border-b border-blue-600">
-        <img src={logo} alt="SmartHire" className="h-8" />
-        <span className="text-lg font-bold tracking-wide">SmartHire</span>
+    <aside
+      style={{
+        width: "220px",
+        background: "#ffffff",
+        borderRight: "1px solid #e5e7eb",
+        padding: "20px",
+        minHeight: "100vh",
+      }}
+    >
+      <div style={{ marginBottom: "24px", fontWeight: 700 }}>
+        SmartHire
       </div>
 
-      {/* Navigation */}
-      <nav className="flex-1 px-4 py-6 space-y-2 text-sm">
-        <NavLink
-          to="/recruiter"
-          className={({ isActive }) =>
-            `flex items-center gap-3 px-4 py-2 rounded-md transition
-            ${isActive ? "bg-blue-600" : "hover:bg-blue-800"}`
-          }
-        >
-          Dashboard
+      <nav>
+        <NavLink to="/candidate" style={linkStyle}>
+          🏠 Dashboard
+        </NavLink>
+        <NavLink to="/candidate/jobs" style={linkStyle}>
+          💼 Browse Jobs
+        </NavLink>
+        <NavLink to="/candidate/applications" style={linkStyle}>
+          📄 My Applications
         </NavLink>
 
-        <NavLink
-          to="/post-job"
-          className={({ isActive }) =>
-            `flex items-center gap-3 px-4 py-2 rounded-md transition
-            ${isActive ? "bg-blue-600" : "hover:bg-blue-800"}`
-          }
-        >
-          Post Job
-        </NavLink>
+        <hr style={{ margin: "16px 0" }} />
 
-        <NavLink
-          to="/manage-jobs"
-          className={({ isActive }) =>
-            `flex items-center gap-3 px-4 py-2 rounded-md transition
-            ${isActive ? "bg-blue-600" : "hover:bg-blue-800"}`
-          }
-        >
-          Manage Jobs
+        <NavLink to="/recruiter" style={linkStyle}>
+          🧑‍💼 Recruiter Dashboard
         </NavLink>
-
-        <NavLink
-          to="/view-applicants"
-          className={({ isActive }) =>
-            `flex items-center gap-3 px-4 py-2 rounded-md transition
-            ${isActive ? "bg-blue-600" : "hover:bg-blue-800"}`
-          }
-        >
-          View Applicants
+        <NavLink to="/recruiter/post-job" style={linkStyle}>
+          ➕ Post Job
+        </NavLink>
+        <NavLink to="/recruiter/manage-jobs" style={linkStyle}>
+          🗂 Manage Jobs
+        </NavLink>
+        <NavLink to="/recruiter/view-applicants" style={linkStyle}>
+          👥 View Applicants
         </NavLink>
       </nav>
-
     </aside>
   );
 }
