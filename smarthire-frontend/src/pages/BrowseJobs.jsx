@@ -1,44 +1,101 @@
+import { useState } from "react";
+
 export default function BrowseJobs() {
+  const [jobs] = useState([
+    {
+      id: 1,
+      title: "Frontend Developer",
+      company: "TechCorp",
+      location: "Bengaluru",
+      type: "Full-time",
+    },
+    {
+      id: 2,
+      title: "Backend Engineer",
+      company: "InnovateX",
+      location: "Remote",
+      type: "Full-time",
+    },
+    {
+      id: 3,
+      title: "UI/UX Designer",
+      company: "DesignHub",
+      location: "Hyderabad",
+      type: "Contract",
+    },
+  ]);
+
   return (
-    <div className="space-y-6">
+    <div>
+      <h1 style={{ fontSize: "28px", fontWeight: 700 }}>
+        Browse Jobs
+      </h1>
+      <p style={{ color: "#666", marginBottom: "24px" }}>
+        Explore opportunities and apply instantly
+      </p>
 
+      <div
+        style={{
+          display: "grid",
+          gap: "16px",
+        }}
+      >
+        {jobs.map((job) => (
+          <JobCard key={job.id} job={job} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ---------------- Job Card ---------------- */
+
+function JobCard({ job }) {
+  return (
+    <div
+      style={{
+        background: "#fff",
+        padding: "20px",
+        borderRadius: "8px",
+        boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+      }}
+    >
       <div>
-        <h1 className="text-2xl font-bold">Browse Jobs</h1>
-        <p className="text-gray-600">Find jobs that match your skills</p>
+        <h3 style={{ marginBottom: "6px" }}>{job.title}</h3>
+        <p style={{ color: "#666", marginBottom: "4px" }}>
+          {job.company} • {job.location}
+        </p>
+        <span
+          style={{
+            fontSize: "12px",
+            padding: "4px 8px",
+            borderRadius: "12px",
+            background: "#e7f0ff",
+            color: "#0d6efd",
+            fontWeight: 500,
+          }}
+        >
+          {job.type}
+        </span>
       </div>
 
-      <div className="space-y-4">
-        <div className="bg-white border rounded-lg p-5 shadow-sm flex justify-between items-center">
-          <div>
-            <p className="text-lg font-medium text-blue-600">Frontend Developer</p>
-            <p className="text-gray-500">TechCorp • Bengaluru</p>
-          </div>
-          <button className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md">
-            Apply
-          </button>
-        </div>
-
-        <div className="bg-white border rounded-lg p-5 shadow-sm flex justify-between items-center">
-          <div>
-            <p className="text-lg font-medium text-blue-600">Backend Engineer</p>
-            <p className="text-gray-500">InnovateX • Remote</p>
-          </div>
-          <button className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md">
-            Apply
-          </button>
-        </div>
-
-        <div className="bg-white border rounded-lg p-5 shadow-sm flex justify-between items-center">
-          <div>
-            <p className="text-lg font-medium text-blue-600">UI/UX Designer</p>
-            <p className="text-gray-500">DesignHub • Hyderabad</p>
-          </div>
-          <button className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md">
-            Apply
-          </button>
-        </div>
-      </div>
-
+      <button
+        style={{
+          padding: "8px 16px",
+          borderRadius: "6px",
+          border: "none",
+          background: "#198754",
+          color: "#fff",
+          cursor: "pointer",
+          fontWeight: 500,
+        }}
+        onClick={() => alert("Applied successfully (mock)")}
+      >
+        Apply
+      </button>
     </div>
   );
 }
