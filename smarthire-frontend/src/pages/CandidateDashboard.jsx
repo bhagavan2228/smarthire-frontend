@@ -1,62 +1,42 @@
 export default function CandidateDashboard() {
   return (
-    <div className="space-y-6">
+    <div>
+      <h1 style={{ fontSize: "28px", fontWeight: "700" }}>
+        Candidate Dashboard
+      </h1>
+      <p style={{ color: "#666", marginBottom: "24px" }}>
+        Welcome to SmartHire
+      </p>
 
-      {/* Page Header */}
-      <div>
-        <h1 className="text-2xl font-bold">Candidate Dashboard</h1>
-        <p className="text-gray-600">Welcome to SmartHire</p>
+      {/* Stats cards */}
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(3, 1fr)",
+          gap: "16px",
+          marginBottom: "32px",
+        }}
+      >
+        <StatCard title="Jobs Applied" value="3" />
+        <StatCard title="Interviews" value="1" />
+        <StatCard title="Offers" value="0" />
       </div>
+    </div>
+  );
+}
 
-      {/* Stats Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        <div className="bg-white border rounded-lg p-4 shadow-sm">
-          <p className="text-sm text-gray-500">Jobs Applied</p>
-          <p className="text-2xl font-bold mt-1">3</p>
-        </div>
-
-        <div className="bg-white border rounded-lg p-4 shadow-sm">
-          <p className="text-sm text-gray-500">Interviews</p>
-          <p className="text-2xl font-bold mt-1">1</p>
-        </div>
-
-        <div className="bg-white border rounded-lg p-4 shadow-sm">
-          <p className="text-sm text-gray-500">Offers</p>
-          <p className="text-2xl font-bold mt-1">0</p>
-        </div>
-      </div>
-
-      {/* Recent Applications */}
-      <div className="bg-white border rounded-lg p-5 shadow-sm">
-        <h2 className="text-lg font-semibold mb-4">Recent Applications</h2>
-
-        <ul className="space-y-3 text-sm">
-          <li className="flex justify-between items-center">
-            <div>
-              <p className="font-medium text-blue-600">Frontend Developer</p>
-              <p className="text-gray-500">TechCorp • Bengaluru</p>
-            </div>
-            <span className="text-yellow-600 font-medium">Under Review</span>
-          </li>
-
-          <li className="flex justify-between items-center">
-            <div>
-              <p className="font-medium text-blue-600">Backend Engineer</p>
-              <p className="text-gray-500">InnovateX • Remote</p>
-            </div>
-            <span className="text-green-600 font-medium">Interview</span>
-          </li>
-
-          <li className="flex justify-between items-center">
-            <div>
-              <p className="font-medium text-blue-600">UI/UX Designer</p>
-              <p className="text-gray-500">DesignHub • Hyderabad</p>
-            </div>
-            <span className="text-gray-500 font-medium">Applied</span>
-          </li>
-        </ul>
-      </div>
-
+function StatCard({ title, value }) {
+  return (
+    <div
+      style={{
+        background: "#fff",
+        borderRadius: "8px",
+        padding: "20px",
+        boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
+      }}
+    >
+      <p style={{ color: "#666", marginBottom: "8px" }}>{title}</p>
+      <h2 style={{ fontSize: "28px", fontWeight: "700" }}>{value}</h2>
     </div>
   );
 }
