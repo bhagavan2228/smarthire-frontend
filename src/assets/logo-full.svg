@@ -1,0 +1,44 @@
+<svg
+  width="180"
+  height="40"
+  viewBox="0 0 180 40"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#3B82F6"/>
+      <stop offset="100%" stop-color="#1E40AF"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Icon -->
+  <path
+    d="M14 6
+       C10.7 9.6 8 12.8 8 17
+       C8 21.4 11.6 25 16 25
+       C20.4 25 24 21.4 24 17
+       C24 12.8 21.3 9.6 18 6Z"
+    fill="url(#g)"
+  />
+  <path
+    d="M26 11
+       C22.7 14.6 20 17.8 20 22
+       C20 26.4 23.6 30 28 30
+       C32.4 30 36 26.4 36 22
+       C36 17.8 33.3 14.6 30 11Z"
+    fill="url(#g)"
+  />
+
+  <!-- Text -->
+  <text
+    x="48"
+    y="26"
+    font-size="20"
+    font-weight="700"
+    fill="#1E40AF"
+    font-family="Inter, system-ui, -apple-system, sans-serif"
+  >
+    SmartHire
+  </text>
+</svg>
