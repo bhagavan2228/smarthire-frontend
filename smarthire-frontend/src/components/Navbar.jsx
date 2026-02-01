@@ -11,23 +11,27 @@ export default function Navbar() {
   };
 
   return (
-    <div style={nav}>
-      <h2>SmartHire</h2>
+    <header className="flex justify-between items-center px-6 py-4 bg-white border-b border-gray-200">
+      <h2 className="text-xl font-semibold text-gray-800">SmartHire</h2>
 
-      <div style={{ display: "flex", gap: "12px" }}>
-        <button onClick={toggleTheme}>
-          {dark ? "☀️ Light" : "🌙 Dark"}
+      <div className="flex items-center gap-4">
+        <button
+          className="p-2 rounded-full hover:bg-gray-100 transition-colors"
+          onClick={toggleTheme}
+        >
+          {dark ? "☀️" : "🌙"}
         </button>
-        <button onClick={logout}>Logout</button>
+
+        <div
+          className="flex items-center gap-2 cursor-pointer hover:bg-gray-100 py-1 px-2 rounded-md transition-colors"
+          onClick={logout}
+        >
+          <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold">
+            JD
+          </div>
+          <span className="text-sm font-medium text-gray-700">Logout</span>
+        </div>
       </div>
-    </div>
+    </header>
   );
 }
-
-const nav = {
-  display: "flex",
-  justifyContent: "space-between",
-  padding: "16px 24px",
-  background: "#fff",
-  borderBottom: "1px solid #e5e7eb",
-};

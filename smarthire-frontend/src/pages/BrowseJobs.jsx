@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 export default function BrowseJobs() {
   const jobs = [
     {
@@ -5,70 +7,48 @@ export default function BrowseJobs() {
       title: "Frontend Developer",
       company: "TechCorp",
       location: "Bengaluru",
+      description: "We are looking for a skilled React developer..."
     },
     {
       id: 2,
       title: "Backend Engineer",
       company: "InnovateX",
       location: "Remote",
+      description: "Join our backend team working with Java Spring Boot..."
     },
     {
       id: 3,
       title: "UI/UX Designer",
       company: "DesignHub",
       location: "Hyderabad",
+      description: "Create beautiful user interfaces and experiences..."
     },
   ];
 
   return (
-    <div style={styles.container}>
-      <h2>Browse Jobs</h2>
+    <div>
+      <div className="mb-6">
+        <h1 className="text-2xl font-bold text-gray-800">Browse Jobs</h1>
+        <p className="text-gray-500 text-sm mt-1">Find your next opportunity</p>
+      </div>
 
-      <div style={styles.list}>
+      <div className="space-y-4">
         {jobs.map((job) => (
-          <div key={job.id} style={styles.card}>
+          <div key={job.id} className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition-shadow flex sm:items-center justify-between flex-col sm:flex-row gap-4">
             <div>
-              <h3>{job.title}</h3>
-              <p style={styles.meta}>
+              <h3 className="text-lg font-bold text-gray-900">{job.title}</h3>
+              <p className="text-sm font-medium text-gray-600 mb-2">
                 {job.company} • {job.location}
               </p>
+              <p className="text-sm text-gray-500 line-clamp-1 max-w-lg">{job.description}</p>
             </div>
-            <button style={styles.applyBtn}>Apply</button>
+
+            <button className="bg-green-600 hover:bg-green-700 text-white px-6 py-2.5 rounded-lg font-semibold transition-colors shadow-sm whitespace-nowrap">
+              Apply Now
+            </button>
           </div>
         ))}
       </div>
     </div>
   );
 }
-
-const styles = {
-  container: {
-    padding: "24px",
-  },
-  list: {
-    marginTop: "16px",
-    display: "grid",
-    gap: "14px",
-  },
-  card: {
-    background: "#fff",
-    padding: "18px",
-    borderRadius: "10px",
-    boxShadow: "0 6px 16px rgba(0,0,0,0.06)",
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  meta: {
-    color: "#6b7280",
-    fontSize: "14px",
-  },
-  applyBtn: {
-    background: "#16a34a",
-    color: "#fff",
-    border: "none",
-    padding: "8px 14px",
-    borderRadius: "6px",
-    cursor: "pointer",
-  },
-};

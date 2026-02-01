@@ -5,13 +5,13 @@ import Sidebar from "../components/Sidebar";
 
 export default function DashboardLayout() {
   return (
-    <div style={{ display: "flex", background: "#f9fafb" }}>
+    <div className="flex bg-gray-50 min-h-screen">
       <Sidebar />
 
-      <div style={{ flex: 1 }}>
+      <div className="flex-1 flex flex-col">
         <Navbar />
 
-        <main style={{ padding: "24px" }}>
+        <main className="flex-1 p-6 overflow-y-auto">
           <PageTransition>
             <Outlet />
           </PageTransition>

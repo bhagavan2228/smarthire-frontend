@@ -1,75 +1,89 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import logo from "../assets/logo.svg";
-import Button from "../components/ui/Button";
+import axiosInstance from "../api/axiosInstance";
 
 export default function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError(null);
 
-    const role = email.includes("recruiter")
-      ? "RECRUITER"
-      : "CANDIDATE";
+    // TODO: Replace with actual backend endpoint
+    // try {
+    //   const res = await axiosInstance.post("/auth/login", { email, password });
+    //   localStorage.setItem("token", res.data.token);
+    //   localStorage.setItem("role", res.data.role);
+    //   navigate(res.data.role === "RECRUITER" ? "/recruiter" : "/candidate");
+    // } catch (err) {
+    //   setError("Invalid credentials");
+    // }
 
-    localStorage.setItem("token", "dummy-jwt");
-    localStorage.setItem("role", role);
-
-    navigate(role === "RECRUITER" ? "/recruiter" : "/candidate");
+    // MOCK LOGIC FOR NOW (Preserving existing behavior but improved)
+    setTimeout(() => {
+      const role = email.toLowerCase().includes("recruiter") ? "RECRUITER" : "CANDIDATE";
+      localStorage.setItem("token", "dummy-jwt");
+      localStorage.setItem("role", role);
+      navigate(role === "RECRUITER" ? "/recruiter" : "/candidate");
+      setLoading(false);
+    }, 1000);
   };
 
   return (
-    <div style={page}>
-      <form style={card} onSubmit={handleLogin}>
-        <img src={logo} alt="SmartHire" style={logoStyle} />
-        <h2>Login</h2>
+    <div>
+      <h2 className="text-2xl font-bold text-center text-gray-800 mb-8">Login</h2>
 
-        <input
-          placeholder="Email"
-          required
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          style={input}
-        />
+      {error && (
+        <div className="bg-red-50 text-red-600 p-3 rounded-lg mb-4 text-sm text-center">
+          {error}
+        </div>
+      )}
 
-        <input placeholder="Password" type="password" style={input} />
+      <form onSubmit={handleLogin} className="space-y-4">
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+          <input
+            type="email"
+            required
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="john@example.com"
+          />
+        </div>
 
-        <Button type="submit">Login</Button>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
+          <input
+            type="password"
+            required
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="••••••••"
+          />
+        </div>
 
-        <p style={footer}>
-          No account? <Link to="/register">Register</Link>
-        </p>
+        <button
+          type="submit"
+          disabled={loading}
+          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {loading ? "Logging in..." : "Login"}
+        </button>
       </form>
+
+      <div className="mt-6 text-center text-sm text-gray-600">
+        Don't have an account?{" "}
+        <Link to="/register" className="text-blue-600 hover:underline font-medium">
+          Register
+        </Link>
+      </div>
     </div>
   );
 }
-
-const page = {
-  minHeight: "100vh",
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  background: "#f3f4f6",
-};
-
-const card = {
-  background: "#fff",
-  padding: "32px",
-  borderRadius: "12px",
-  width: "100%",
-  maxWidth: "400px",
-  boxShadow: "0 10px 30px rgba(0,0,0,0.1)",
-};
-
-const input = {
-  width: "100%",
-  padding: "10px",
-  marginBottom: "14px",
-  borderRadius: "6px",
-  border: "1px solid #d1d5db",
-};
-
-const logoStyle = { height: "34px", marginBottom: "16px" };
-const footer = { marginTop: "12px", fontSize: "14px" };

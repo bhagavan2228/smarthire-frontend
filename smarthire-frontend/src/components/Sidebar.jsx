@@ -2,106 +2,76 @@ import { NavLink } from "react-router-dom";
 import logo from "../assets/logo.svg";
 
 export default function Sidebar() {
+  // TEMP role (Day 4 → replace with JWT role)
+  const role = "recruiter"; // "candidate" | "recruiter"
+
   return (
-    <aside style={sidebar}>
+    <aside className="w-64 bg-slate-900 text-white min-h-screen flex flex-col py-6 px-4">
       {/* Logo */}
-      <div style={logoWrap}>
-        <img src={logo} alt="SmartHire" style={logoStyle} />
+      <div className="flex justify-center mb-8">
+        <div className="flex items-center gap-2 text-xl font-bold">
+          <span className="text-2xl text-blue-500">◆</span> SmartHire
+        </div>
       </div>
 
-      {/* Candidate */}
-      <NavItem to="/candidate" icon="🏠" label="Dashboard" />
-      <NavItem to="/browse-jobs" icon="💼" label="Browse Jobs" />
-      <NavItem to="/candidate/applications" icon="📄" label="My Applications" />
+      <nav className="flex-1 space-y-2">
+        {/* Candidate Sidebar */}
+        {role === "candidate" && (
+          <>
+            <NavItem to="/browse-jobs" icon="💼" label="Browse Jobs" />
+            <NavItem
+              to="/candidate/applications"
+              icon="📄"
+              label="My Applications"
+            />
+          </>
+        )}
 
-      <Divider />
+        {/* Recruiter Sidebar */}
+        {role === "recruiter" && (
+          <>
+            <NavItem
+              to="/recruiter"
+              icon="📊"
+              label="Dashboard"
+            />
+            <NavItem
+              to="/post-job"
+              icon="✍️"
+              label="Post Job"
+            />
+            <NavItem
+              to="/manage-jobs"
+              icon="📁"
+              label="Manage Jobs"
+            />
+            <NavItem
+              to="/view-applicants"
+              icon="👥"
+              label="View Applicants"
+            />
+          </>
+        )}
+      </nav>
 
-      {/* Recruiter */}
-      <NavItem to="/recruiter" icon="🧑‍💼" label="Recruiter Dashboard" />
-      <NavItem to="/view-applicants" icon="👥" label="Applicants" />
+      {/* Logout / User Info eventually */}
     </aside>
   );
 }
-
-/* ================= NAV ITEM ================= */
 
 function NavItem({ to, icon, label }) {
   return (
     <NavLink
       to={to}
-      style={({ isActive }) => ({
-        ...navItem,
-        background: isActive ? "#1e40af" : "transparent",
-        boxShadow: isActive
-          ? "inset 4px 0 0 #60a5fa"
-          : "none",
-      })}
-      onMouseEnter={(e) => {
-        if (!e.currentTarget.classList.contains("active")) {
-          e.currentTarget.style.background = "#1f2937";
-        }
-      }}
-      onMouseLeave={(e) => {
-        if (!e.currentTarget.classList.contains("active")) {
-          e.currentTarget.style.background = "transparent";
-        }
-      }}
-      className={({ isActive }) => (isActive ? "active" : "")}
+      className={({ isActive }) =>
+        `flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all ${isActive
+          ? "bg-blue-600 text-white shadow-md"
+          : "text-slate-300 hover:bg-slate-800 hover:text-white"
+        }`
+      }
     >
-      <span style={iconStyle}>{icon}</span>
+      <span className="text-lg">{icon}</span>
       <span>{label}</span>
     </NavLink>
   );
 }
-
-/* ================= DIVIDER ================= */
-
-function Divider() {
-  return <div style={divider} />;
-}
-
-/* ================= STYLES ================= */
-
-const sidebar = {
-  width: "240px",
-  background: "#0f172a",
-  color: "#ffffff",
-  padding: "20px 14px",
-  minHeight: "100vh",
-  display: "flex",
-  flexDirection: "column",
-};
-
-const logoWrap = {
-  display: "flex",
-  justifyContent: "center",
-  marginBottom: "28px",
-};
-
-const logoStyle = {
-  height: "34px",
-};
-
-const navItem = {
-  display: "flex",
-  alignItems: "center",
-  gap: "12px",
-  padding: "12px 14px",
-  borderRadius: "10px",
-  color: "#e5e7eb",
-  textDecoration: "none",
-  fontSize: "14px",
-  fontWeight: 500,
-  marginBottom: "6px",
-  transition: "all 0.2s ease",
-};
-
-const iconStyle = {
-  fontSize: "18px",
-};
-
-const divider = {
-  height: "1px",
-  background: "#334155",
-  margin: "16px 0",
-};

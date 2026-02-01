@@ -4,175 +4,134 @@ export default function RecruiterDashboard() {
   const navigate = useNavigate();
 
   const jobs = [
-    { id: 1, title: "Frontend Developer", applicants: 8 },
-    { id: 2, title: "Backend Engineer", applicants: 5 },
+    { id: 1, title: "Frontend Developer", applicants: 8, location: "New York, NY", type: "Full-time" },
+    { id: 2, title: "Backend Engineer", applicants: 5, location: "Remote", type: "Contract" },
+    { id: 3, title: "UI/UX Designer", applicants: 12, location: "San Francisco, CA", type: "Full-time" },
+  ];
+
+  const recentApplicants = [
+    { id: 1, name: "Alice Johnson", role: "Frontend Developer", status: "Applied" },
+    { id: 2, name: "Mark Davis", role: "Backend Engineer", status: "Shortlisted" },
+    { id: 3, name: "John Smith", role: "UI/UX Designer", status: "Interview" },
   ];
 
   return (
     <div>
       {/* ================= HEADER ================= */}
-      <div style={header}>
+      <div className="flex justify-between items-center mb-8">
         <div>
-          <h1 style={title}>Recruiter Dashboard</h1>
-          <p style={subtitle}>
-            Manage jobs and track candidate pipelines
+          <h1 className="text-2xl font-bold text-gray-800">Recruiter Dashboard</h1>
+          <p className="text-gray-500 mt-1">
+            Manage your job postings and track candidate pipelines
           </p>
         </div>
 
         <button
-          style={primaryBtn}
-          onClick={() => navigate("/recruiter/post-job")}
+          className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg font-medium transition-colors flex items-center gap-2 shadow-sm"
+          onClick={() => navigate("/post-job")}
         >
-          Post New Job
+          <span>＋</span> Post New Job
         </button>
       </div>
 
       {/* ================= STATS ================= */}
-      <div style={statsGrid}>
-        <StatCard title="Active Jobs" value="2" color="#2563eb" />
-        <StatCard title="Total Applicants" value="13" color="#16a34a" />
-        <StatCard title="Interviews" value="4" color="#f59e0b" />
-        <StatCard title="Hires" value="1" color="#0f766e" />
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <StatCard title="Active Jobs" value="5" color="text-blue-600" bg="bg-blue-50" icon="💼" />
+        <StatCard title="Total Applicants" value="15" color="text-green-600" bg="bg-green-50" icon="👥" />
+        <StatCard title="Interviews" value="3" color="text-amber-500" bg="bg-amber-50" icon="📅" />
+        <StatCard title="Hires" value="1" color="text-teal-600" bg="bg-teal-50" icon="🤝" />
       </div>
 
-      {/* ================= JOBS OVERVIEW ================= */}
-      <section style={section}>
-        <h2 style={sectionTitle}>Your Jobs</h2>
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
+        {/* ================= RECENT JOBS ================= */}
+        <section className="xl:col-span-2 space-y-4">
+          <div className="flex justify-between items-center mb-2">
+            <h2 className="text-lg font-bold text-gray-800">Recent Jobs</h2>
+            <button
+              onClick={() => navigate("/manage-jobs")}
+              className="text-sm text-blue-600 hover:text-blue-800 font-medium"
+            >
+              View all
+            </button>
+          </div>
 
-        <div style={jobsGrid}>
-          {jobs.map((job) => (
-            <div key={job.id} style={jobCard}>
-              <div>
-                <h4 style={{ marginBottom: "6px" }}>{job.title}</h4>
-                <p style={mutedText}>{job.applicants} applicants</p>
+          <div className="space-y-4">
+            {jobs.map((job) => (
+              <div key={job.id} className="bg-white p-5 rounded-xl shadow-sm border border-gray-100 flex justify-between items-center hover:shadow-md transition-shadow">
+                <div>
+                  <h4 className="font-semibold text-gray-800 text-lg mb-1">{job.title}</h4>
+                  <div className="flex gap-3 text-sm text-gray-500">
+                    <span>{job.location}</span>
+                    <span>•</span>
+                    <span>{job.type}</span>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-6">
+                  <div className="text-center">
+                    <span className="block text-xl font-bold text-gray-800">{job.applicants}</span>
+                    <span className="text-xs text-gray-500 uppercase font-semibold">Applicants</span>
+                  </div>
+                  <button
+                    className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-medium text-sm transition-colors"
+                    onClick={() => navigate("/view-applicants")}
+                  >
+                    Manage
+                  </button>
+                </div>
               </div>
+            ))}
+          </div>
+        </section>
 
-              <button
-                style={secondaryBtn}
-                onClick={() => navigate("/view-applicants")}
-              >
-                View Applicants
-              </button>
-            </div>
-          ))}
-        </div>
-      </section>
+        {/* ================= RECENT APPLICANTS ================= */}
+        <section>
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-lg font-bold text-gray-800">Recent Applicants</h2>
+            <button
+              onClick={() => navigate("/view-applicants")}
+              className="text-sm text-blue-600 hover:text-blue-800 font-medium"
+            >
+              View all
+            </button>
+          </div>
 
-      {/* ================= PIPELINE PREVIEW ================= */}
-      <section style={section}>
-        <h2 style={sectionTitle}>Hiring Pipeline</h2>
-
-        <div style={pipelineCard}>
-          <PipelineItem label="Applied" value="6" color="#2563eb" />
-          <PipelineItem label="Shortlisted" value="4" color="#9333ea" />
-          <PipelineItem label="Interview" value="2" color="#f59e0b" />
-          <PipelineItem label="Hired" value="1" color="#16a34a" />
-        </div>
-      </section>
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100 divide-y divide-gray-100">
+            {recentApplicants.map((applicant) => (
+              <div key={applicant.id} className="p-4 flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 font-bold text-sm">
+                    {applicant.name.charAt(0)}
+                  </div>
+                  <div>
+                    <p className="font-semibold text-gray-800 text-sm">{applicant.name}</p>
+                    <p className="text-xs text-gray-500">{applicant.role}</p>
+                  </div>
+                </div>
+                <button className="text-blue-600 hover:bg-blue-50 px-3 py-1 rounded-md text-sm font-medium transition-colors">
+                  Review
+                </button>
+              </div>
+            ))}
+          </div>
+        </section>
+      </div>
     </div>
   );
 }
 
 /* ================= COMPONENTS ================= */
 
-function StatCard({ title, value, color }) {
+function StatCard({ title, value, color, bg, icon }) {
   return (
-    <div style={statCard}>
-      <p style={mutedText}>{title}</p>
-      <h2 style={{ fontSize: "32px", fontWeight: 700, color }}>
-        {value}
-      </h2>
+    <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-start justify-between">
+      <div>
+        <p className="text-gray-500 text-sm font-medium mb-1">{title}</p>
+        <h2 className="text-3xl font-bold text-gray-900">{value}</h2>
+      </div>
+      <div className={`w-12 h-12 rounded-lg ${bg} ${color} flex items-center justify-center text-2xl`}>
+        {icon}
+      </div>
     </div>
   );
 }
-
-function PipelineItem({ label, value, color }) {
-  return (
-    <div style={pipelineItem}>
-      <span style={mutedText}>{label}</span>
-      <span style={{ fontWeight: 700, color }}>{value}</span>
-    </div>
-  );
-}
-
-/* ================= STYLES ================= */
-
-const header = {
-  display: "flex",
-  justifyContent: "space-between",
-  alignItems: "center",
-  marginBottom: "28px",
-};
-
-const title = { fontSize: "28px", fontWeight: 700 };
-const subtitle = { color: "#6b7280" };
-const mutedText = { color: "#6b7280", fontSize: "14px" };
-
-const primaryBtn = {
-  padding: "10px 16px",
-  background: "#2563eb",
-  color: "#fff",
-  border: "none",
-  borderRadius: "8px",
-  cursor: "pointer",
-  fontWeight: 600,
-};
-
-const secondaryBtn = {
-  padding: "8px 14px",
-  background: "#e5e7eb",
-  color: "#111827",
-  border: "none",
-  borderRadius: "8px",
-  cursor: "pointer",
-  fontWeight: 600,
-};
-
-const statsGrid = {
-  display: "grid",
-  gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
-  gap: "16px",
-  marginBottom: "32px",
-};
-
-const statCard = {
-  background: "#ffffff",
-  padding: "22px",
-  borderRadius: "12px",
-  boxShadow: "0 8px 24px rgba(0,0,0,0.08)",
-};
-
-const section = { marginBottom: "32px" };
-const sectionTitle = { marginBottom: "12px", fontSize: "18px" };
-
-const jobsGrid = {
-  display: "grid",
-  gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
-  gap: "16px",
-};
-
-const jobCard = {
-  background: "#ffffff",
-  padding: "18px",
-  borderRadius: "12px",
-  boxShadow: "0 6px 16px rgba(0,0,0,0.06)",
-  display: "flex",
-  justifyContent: "space-between",
-  alignItems: "center",
-};
-
-const pipelineCard = {
-  background: "#ffffff",
-  padding: "20px",
-  borderRadius: "12px",
-  boxShadow: "0 8px 24px rgba(0,0,0,0.08)",
-  display: "grid",
-  gridTemplateColumns: "repeat(4, 1fr)",
-  gap: "12px",
-};
-
-const pipelineItem = {
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center", // ✅ FIXED
-};

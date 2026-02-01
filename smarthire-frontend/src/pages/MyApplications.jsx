@@ -24,36 +24,27 @@ export default function MyApplications() {
 
   return (
     <div>
-      <h1 style={{ fontSize: "28px", fontWeight: 700 }}>
-        My Applications
-      </h1>
-      <p style={{ color: "#666", marginBottom: "24px" }}>
-        Track the status of your job applications
-      </p>
+      <div className="mb-6">
+        <h1 className="text-2xl font-bold text-gray-800">My Applications</h1>
+        <p className="text-gray-500 text-sm mt-1">Track the status of your job applications</p>
+      </div>
 
-      <div
-        style={{
-          background: "#fff",
-          borderRadius: "8px",
-          boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
-          overflow: "hidden",
-        }}
-      >
-        <table style={{ width: "100%", borderCollapse: "collapse" }}>
-          <thead style={{ background: "#f8f9fa" }}>
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+        <table className="w-full text-left border-collapse">
+          <thead className="bg-gray-50 border-b border-gray-200">
             <tr>
-              <th style={thStyle}>Job Title</th>
-              <th style={thStyle}>Company</th>
-              <th style={thStyle}>Status</th>
+              <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Job Title</th>
+              <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Company</th>
+              <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</th>
             </tr>
           </thead>
 
-          <tbody>
+          <tbody className="divide-y divide-gray-100">
             {applications.map((app) => (
-              <tr key={app.id} style={{ borderTop: "1px solid #eee" }}>
-                <td style={tdStyle}>{app.jobTitle}</td>
-                <td style={tdStyle}>{app.company}</td>
-                <td style={tdStyle}>
+              <tr key={app.id} className="hover:bg-gray-50 transition-colors">
+                <td className="px-6 py-4 font-medium text-gray-900">{app.jobTitle}</td>
+                <td className="px-6 py-4 text-gray-600">{app.company}</td>
+                <td className="px-6 py-4">
                   <StatusBadge status={app.status} />
                 </td>
               </tr>
@@ -65,60 +56,17 @@ export default function MyApplications() {
   );
 }
 
-/* ---------------- Styles ---------------- */
-
-const thStyle = {
-  textAlign: "left",
-  padding: "14px",
-  fontWeight: 600,
-  fontSize: "14px",
-};
-
-const tdStyle = {
-  padding: "14px",
-  fontSize: "14px",
-};
-
-/* ---------------- Status Badge ---------------- */
-
 function StatusBadge({ status }) {
   const styles = {
-    APPLIED: {
-      bg: "#e7f0ff",
-      color: "#0d6efd",
-      label: "Applied",
-    },
-    INTERVIEW: {
-      bg: "#fff3cd",
-      color: "#856404",
-      label: "Interview",
-    },
-    SELECTED: {
-      bg: "#d4edda",
-      color: "#155724",
-      label: "Selected",
-    },
-    REJECTED: {
-      bg: "#f8d7da",
-      color: "#721c24",
-      label: "Rejected",
-    },
+    APPLIED: "bg-blue-100 text-blue-700",
+    INTERVIEW: "bg-amber-100 text-amber-700",
+    SELECTED: "bg-green-100 text-green-700",
+    REJECTED: "bg-red-100 text-red-700",
   };
 
-  const s = styles[status];
-
   return (
-    <span
-      style={{
-        background: s.bg,
-        color: s.color,
-        padding: "4px 10px",
-        borderRadius: "12px",
-        fontSize: "12px",
-        fontWeight: 500,
-      }}
-    >
-      {s.label}
+    <span className={`px-3 py-1 rounded-full text-xs font-medium ${styles[status] || "bg-gray-100 text-gray-700"}`}>
+      {status}
     </span>
   );
 }
