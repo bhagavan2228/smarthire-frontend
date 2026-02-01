@@ -17,27 +17,6 @@ SmartHire is a full‑stack recruitment platform that helps **recruiters** post 
 ## Screenshots
 ![SmartHire UI](assets/smarthire-ui.png)
 
-## Run Locally
-
-### 1) Clone
-```bash
-git clone https://github.com/<your-username>/SmartHire.git
-cd SmartHire
-```
-
-### 2) Frontend
-```bash
-cd frontend
-npm install
-npm start
-```
-
-### 3) Backend
-```bash
-cd backend
-mvn clean install
-mvn spring-boot:run
-```
 
 ## Project Status
 Actively developed — new features and improvements are being added.

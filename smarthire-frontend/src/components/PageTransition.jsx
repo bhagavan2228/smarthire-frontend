@@ -4,8 +4,11 @@ export default function PageTransition({ children }) {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
-    setShow(true);
-    return () => setShow(false);
+    const t = setTimeout(() => setShow(true), 50);
+    return () => {
+      clearTimeout(t);
+      setShow(false);
+    };
   }, []);
 
   return (
