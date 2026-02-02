@@ -9,16 +9,14 @@ export default function ViewApplicants() {
   const [applicants, setApplicants] = useState([]);
 
   useEffect(() => {
-    // Assuming backend supports filtering by jobId via query param or similar
-    // User requirement just listed "/applications" endpoint.
-    // If getting all applications, we might need to filter on frontend if backend doesn't support it yet.
-    // But for "Pin-to-pin", let's assume standard REST: GET /applications?jobId=...
-    axiosInstance.get(`/applications?jobId=${jobId}`).then((res) => setApplicants(res.data));
+    // Backend: JobApplicationController -> @GetMapping("/job/{jobId}")
+    axiosInstance.get(`/applications/job/${jobId}`).then((res) => setApplicants(res.data));
   }, [jobId]);
 
   const updateStatus = async (id, status) => {
     try {
-      await axiosInstance.put(`/applications/${id}`, { status });
+      // Backend: AdminApplicationController -> @PutMapping("/{id}/status") with @RequestParam status
+      await axiosInstance.put(`/admin/applications/${id}/status?status=${status}`);
       setApplicants(applicants.map(a => a.id === id ? { ...a, status } : a));
     } catch (e) {
       alert("Failed to update status");
@@ -41,8 +39,8 @@ export default function ViewApplicants() {
         <tbody>
           {applicants.map((a) => (
             <tr key={a.id}>
-              <td>{a.candidateName || a.name || "Candidate"}</td>
-              <td>{a.jobTitle || "Job"}</td>
+              <td>{a.user?.fullName || a.user?.email || "Candidate"}</td>
+              <td>{a.job?.title || "Job"}</td>
               <td>
                 <Badge label={a.status} status={a.status} />
               </td>

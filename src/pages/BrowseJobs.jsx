@@ -10,7 +10,8 @@ export default function BrowseJobs() {
 
   const handleApply = async (jobId) => {
     try {
-      await axiosInstance.post("/applications", { jobId });
+      // Backend: ApplicationController -> @PostMapping("/apply") with @RequestParam jobId
+      await axiosInstance.post(`/applications/apply?jobId=${jobId}`);
       alert("Applied successfully!");
     } catch (error) {
       alert("Failed to apply");

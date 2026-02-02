@@ -9,7 +9,8 @@ export default function CandidateDashboard() {
   const [applications, setApplications] = useState([]);
 
   useEffect(() => {
-    axiosInstance.get("/applications").then((res) => setApplications(res.data));
+    // Backend: ApplicationController -> @GetMapping("/my")
+    axiosInstance.get("/applications/my").then((res) => setApplications(res.data));
   }, []);
 
   return (
@@ -25,8 +26,8 @@ export default function CandidateDashboard() {
         {applications.map((a) => (
           <div key={a.id} style={card}>
             <div>
-              <h4>{a.jobTitle || "Job Role"}</h4>
-              <p>{a.companyName || "Company"}</p>
+              <h4>{a.job?.title || "Job Role"}</h4>
+              <p>{a.job?.company || "Company"}</p>
             </div>
             <Badge label={a.status} status={a.status} />
           </div>
