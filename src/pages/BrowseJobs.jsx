@@ -1,24 +1,21 @@
+import { useEffect, useState } from "react";
+import axiosInstance from "../api/axiosInstance";
+
 export default function BrowseJobs() {
-  const jobs = [
-    {
-      id: 1,
-      title: "Frontend Developer",
-      company: "TechCorp",
-      location: "Bengaluru",
-    },
-    {
-      id: 2,
-      title: "Backend Engineer",
-      company: "InnovateX",
-      location: "Remote",
-    },
-    {
-      id: 3,
-      title: "UI/UX Designer",
-      company: "DesignHub",
-      location: "Hyderabad",
-    },
-  ];
+  const [jobs, setJobs] = useState([]);
+
+  useEffect(() => {
+    axiosInstance.get("/jobs").then((res) => setJobs(res.data));
+  }, []);
+
+  const handleApply = async (jobId) => {
+    try {
+      await axiosInstance.post("/applications", { jobId });
+      alert("Applied successfully!");
+    } catch (error) {
+      alert("Failed to apply");
+    }
+  };
 
   return (
     <div style={styles.container}>
@@ -30,10 +27,12 @@ export default function BrowseJobs() {
             <div>
               <h3>{job.title}</h3>
               <p style={styles.meta}>
-                {job.company} • {job.location}
+                {job.company || "SmartHire"} • {job.location}
               </p>
             </div>
-            <button style={styles.applyBtn}>Apply</button>
+            <button style={styles.applyBtn} onClick={() => handleApply(job.id)}>
+              Apply
+            </button>
           </div>
         ))}
       </div>

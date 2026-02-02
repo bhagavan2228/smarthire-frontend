@@ -2,22 +2,35 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/logo.svg";
 import Button from "../components/ui/Button";
+import axiosInstance from "../api/axiosInstance";
 
 export default function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const handleLogin = (e) => {
+  /* import axiosInstance at top, assuming I need to add it or it's there? It's NOT there in view_file output. */
+  /* Wait, I need to add the import first or include it in the replacement if I can span it. */
+  /* The replace_file_content works on a block. I should probably use multi_replace. */
+
+  /* Let's try to do it in one go with multi_replace or carefully with replace. */
+  /* Better to use multi_replace to add import AND change handler. */
+  const handleLogin = async (e) => {
     e.preventDefault();
+    try {
+      const res = await axiosInstance.post("/auth/login", { email, password });
+      const { token, role } = res.data;
 
-    const role = email.includes("recruiter")
-      ? "RECRUITER"
-      : "CANDIDATE";
+      localStorage.setItem("token", token);
+      localStorage.setItem("role", role);
 
-    localStorage.setItem("token", "dummy-jwt");
-    localStorage.setItem("role", role);
-
-    navigate(role === "RECRUITER" ? "/recruiter" : "/candidate");
+      if (role === "ROLE_ADMIN") navigate("/recruiter");
+      else if (role === "ROLE_CANDIDATE") navigate("/candidate");
+      else navigate("/");
+    } catch (err) {
+      console.error(err);
+      alert("Login failed");
+    }
   };
 
   return (
@@ -34,7 +47,13 @@ export default function Login() {
           style={input}
         />
 
-        <input placeholder="Password" type="password" style={input} />
+        <input
+          placeholder="Password"
+          type="password"
+          style={input}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
 
         <Button type="submit">Login</Button>
 

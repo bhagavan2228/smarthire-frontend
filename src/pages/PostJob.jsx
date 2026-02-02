@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "../api/axiosInstance";
+import axiosInstance from "../api/axiosInstance";
 
 export default function PostJob() {
   const [title, setTitle] = useState("");
@@ -15,7 +15,7 @@ export default function PostJob() {
     try {
       setLoading(true);
       setError("");
-      await axios.post("/jobs", { title, description, location });
+      await axiosInstance.post("/jobs", { title, description, location });
       navigate("/recruiter/manage-jobs");
     } catch {
       setError("Failed to post job");

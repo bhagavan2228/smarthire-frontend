@@ -14,24 +14,19 @@ export default function Login() {
     setLoading(true);
     setError(null);
 
-    // TODO: Replace with actual backend endpoint
-    // try {
-    //   const res = await axiosInstance.post("/auth/login", { email, password });
-    //   localStorage.setItem("token", res.data.token);
-    //   localStorage.setItem("role", res.data.role);
-    //   navigate(res.data.role === "RECRUITER" ? "/recruiter" : "/candidate");
-    // } catch (err) {
-    //   setError("Invalid credentials");
-    // }
-
-    // MOCK LOGIC FOR NOW (Preserving existing behavior but improved)
-    setTimeout(() => {
-      const role = email.toLowerCase().includes("recruiter") ? "RECRUITER" : "CANDIDATE";
-      localStorage.setItem("token", "dummy-jwt");
-      localStorage.setItem("role", role);
-      navigate(role === "RECRUITER" ? "/recruiter" : "/candidate");
+    try {
+      const res = await axiosInstance.post("/auth/login", { email, password });
+      localStorage.setItem("token", res.data.token);
+      // Backend does not return role, default to CANDIDATE
+      // User can switch manually if implemented, or we assume CANDIDATE
+      localStorage.setItem("role", "CANDIDATE");
+      navigate("/candidate");
+    } catch (err) {
+      console.error(err);
+      setError("Invalid credentials or server error");
+    } finally {
       setLoading(false);
-    }, 1000);
+    }
   };
 
   return (

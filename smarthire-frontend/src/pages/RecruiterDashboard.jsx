@@ -1,19 +1,43 @@
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axiosInstance from "../api/axiosInstance";
 
 export default function RecruiterDashboard() {
   const navigate = useNavigate();
+  const [stats, setStats] = useState({ jobs: 0, applicants: 0, interviews: 0, hires: 0 });
+  const [recentJobs, setRecentJobs] = useState([]);
+  const [recentApplicants, setRecentApplicants] = useState([]);
 
-  const jobs = [
-    { id: 1, title: "Frontend Developer", applicants: 8, location: "New York, NY", type: "Full-time" },
-    { id: 2, title: "Backend Engineer", applicants: 5, location: "Remote", type: "Contract" },
-    { id: 3, title: "UI/UX Designer", applicants: 12, location: "San Francisco, CA", type: "Full-time" },
-  ];
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Parallel fetch for better performance
+        const [jobsRes, appsRes] = await Promise.all([
+          axiosInstance.get("/jobs"), // Use all jobs 
+          axiosInstance.get("/applications") // Use all applications as recruiter
+        ]);
 
-  const recentApplicants = [
-    { id: 1, name: "Alice Johnson", role: "Frontend Developer", status: "Applied" },
-    { id: 2, name: "Mark Davis", role: "Backend Engineer", status: "Shortlisted" },
-    { id: 3, name: "John Smith", role: "UI/UX Designer", status: "Interview" },
-  ];
+        const jobs = jobsRes.data;
+        const apps = appsRes.data;
+
+        setRecentJobs(jobs.slice(0, 3));
+        setRecentApplicants(apps.slice(0, 3));
+
+        // Calculate stats
+        setStats({
+          jobs: jobs.length,
+          applicants: apps.length,
+          interviews: apps.filter(a => (a.status || '').toUpperCase() === 'INTERVIEW').length,
+          hires: apps.filter(a => (a.status || '').toUpperCase() === 'SELECTED').length
+        });
+
+      } catch (error) {
+        console.error("Dashboard fetch error:", error);
+        // Keep defaults or show error
+      }
+    };
+    fetchData();
+  }, []);
 
   return (
     <div>
@@ -36,10 +60,10 @@ export default function RecruiterDashboard() {
 
       {/* ================= STATS ================= */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <StatCard title="Active Jobs" value="5" color="text-blue-600" bg="bg-blue-50" icon="💼" />
-        <StatCard title="Total Applicants" value="15" color="text-green-600" bg="bg-green-50" icon="👥" />
-        <StatCard title="Interviews" value="3" color="text-amber-500" bg="bg-amber-50" icon="📅" />
-        <StatCard title="Hires" value="1" color="text-teal-600" bg="bg-teal-50" icon="🤝" />
+        <StatCard title="Active Jobs" value={stats.jobs} color="text-blue-600" bg="bg-blue-50" icon="💼" />
+        <StatCard title="Total Applicants" value={stats.applicants} color="text-green-600" bg="bg-green-50" icon="👥" />
+        <StatCard title="Interviews" value={stats.interviews} color="text-amber-500" bg="bg-amber-50" icon="📅" />
+        <StatCard title="Hires" value={stats.hires} color="text-teal-600" bg="bg-teal-50" icon="🤝" />
       </div>
 
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
@@ -56,20 +80,21 @@ export default function RecruiterDashboard() {
           </div>
 
           <div className="space-y-4">
-            {jobs.map((job) => (
+            {recentJobs.map((job) => (
               <div key={job.id} className="bg-white p-5 rounded-xl shadow-sm border border-gray-100 flex justify-between items-center hover:shadow-md transition-shadow">
                 <div>
                   <h4 className="font-semibold text-gray-800 text-lg mb-1">{job.title}</h4>
                   <div className="flex gap-3 text-sm text-gray-500">
                     <span>{job.location}</span>
                     <span>•</span>
-                    <span>{job.type}</span>
+                    <span>{job.type || "Full-time"}</span>
                   </div>
                 </div>
 
                 <div className="flex items-center gap-6">
                   <div className="text-center">
-                    <span className="block text-xl font-bold text-gray-800">{job.applicants}</span>
+                    {/* Backend Job entity doesn't have applicants count directly. Just mocking 0 or need separate fetch */}
+                    <span className="block text-xl font-bold text-gray-800">--</span>
                     <span className="text-xs text-gray-500 uppercase font-semibold">Applicants</span>
                   </div>
                   <button
@@ -101,15 +126,15 @@ export default function RecruiterDashboard() {
               <div key={applicant.id} className="p-4 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 font-bold text-sm">
-                    {applicant.name.charAt(0)}
+                    {(applicant.user?.fullName || "U").charAt(0)}
                   </div>
                   <div>
-                    <p className="font-semibold text-gray-800 text-sm">{applicant.name}</p>
-                    <p className="text-xs text-gray-500">{applicant.role}</p>
+                    <p className="font-semibold text-gray-800 text-sm">{applicant.user?.fullName || "Candidate"}</p>
+                    <p className="text-xs text-gray-500">{applicant.job?.title || "Role"}</p>
                   </div>
                 </div>
                 <button className="text-blue-600 hover:bg-blue-50 px-3 py-1 rounded-md text-sm font-medium transition-colors">
-                  Review
+                  {applicant.status || 'Applied'}
                 </button>
               </div>
             ))}

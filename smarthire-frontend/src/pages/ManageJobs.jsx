@@ -10,15 +10,13 @@ export default function ManageJobs() {
   useEffect(() => {
     const fetchJobs = async () => {
       try {
+        // Change to real Recruiter Job endpoint (Using generic /jobs for now)
         const res = await axios.get("/jobs");
         setJobs(res.data);
-      } catch {
-        // Fallback for demo
-        setJobs([
-          { id: 1, title: "Frontend Developer", location: "New York, NY", description: "React.js role...", type: "Full-time" },
-          { id: 2, title: "Backend Engineer", location: "Remote", description: "Spring Boot role...", type: "Part-time" },
-        ]);
-        // setError("Failed to load jobs");
+      } catch (err) {
+        console.error(err);
+        setError("Failed to load jobs");
+        // Remove fallbacks once backend is ready
       } finally {
         setLoading(false);
       }

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-// import axios from "../api/axiosInstance";
+import axios from "../api/axiosInstance";
 
 export default function PostJob() {
   const [title, setTitle] = useState("");
@@ -15,12 +15,12 @@ export default function PostJob() {
     try {
       setLoading(true);
       setError("");
-      // await axios.post("/jobs", { title, description, location });
-      // Mock delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await axios.post("/jobs", { title, description, location });
+      alert("Job Posted Successfully!");
       navigate("/recruiter/manage-jobs");
-    } catch {
-      setError("Failed to post job");
+    } catch (err) {
+      console.error(err);
+      setError("Failed to post job. Please try again.");
     } finally {
       setLoading(false);
     }

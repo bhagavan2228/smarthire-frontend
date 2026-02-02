@@ -36,16 +36,16 @@ export default function AppRoutes() {
         <Route
           path="/recruiter"
           element={
-            <RoleRoute role="RECRUITER">
+            <RoleRoute role="ROLE_ADMIN">
               <RecruiterDashboard />
             </RoleRoute>
           }
         />
 
         <Route
-          path="/view-applicants"
+          path="/recruiter/jobs/:jobId/applications"
           element={
-            <RoleRoute role="RECRUITER">
+            <RoleRoute role="ROLE_ADMIN">
               <ViewApplicants />
             </RoleRoute>
           }
@@ -55,7 +55,7 @@ export default function AppRoutes() {
         <Route
           path="/candidate"
           element={
-            <RoleRoute role="CANDIDATE">
+            <RoleRoute role="ROLE_CANDIDATE">
               <CandidateDashboard />
             </RoleRoute>
           }
@@ -64,7 +64,7 @@ export default function AppRoutes() {
         <Route
           path="/browse-jobs"
           element={
-            <RoleRoute role="CANDIDATE">
+            <RoleRoute role="ROLE_CANDIDATE">
               <BrowseJobs />
             </RoleRoute>
           }

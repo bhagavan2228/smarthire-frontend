@@ -9,16 +9,23 @@ export default function Sidebar() {
         <img src={logo} alt="SmartHire" style={logoStyle} />
       </div>
 
-      {/* Candidate */}
-      <NavItem to="/candidate" icon="🏠" label="Dashboard" />
-      <NavItem to="/browse-jobs" icon="💼" label="Browse Jobs" />
-      <NavItem to="/candidate/applications" icon="📄" label="My Applications" />
+      {localStorage.getItem("role") === "ROLE_CANDIDATE" && (
+        <>
+          <div style={sectionLabel}>Candidate</div>
+          <NavItem to="/candidate" icon="🏠" label="Dashboard" />
+          <NavItem to="/browse-jobs" icon="💼" label="Browse Jobs" />
+          <NavItem to="/candidate/applications" icon="📄" label="My Applications" />
+        </>
+      )}
 
-      <Divider />
-
-      {/* Recruiter */}
-      <NavItem to="/recruiter" icon="🧑‍💼" label="Recruiter Dashboard" />
-      <NavItem to="/view-applicants" icon="👥" label="Applicants" />
+      {localStorage.getItem("role") === "ROLE_ADMIN" && (
+        <>
+          <Divider />
+          <div style={sectionLabel}>Recruiter</div>
+          <NavItem to="/recruiter" icon="🧑‍💼" label="Recruiter Dashboard" />
+          <NavItem to="/view-applicants" icon="👥" label="Applicants" />
+        </>
+      )}
     </aside>
   );
 }

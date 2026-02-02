@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import axios from "../api/axiosInstance";
+import axiosInstance from "../api/axiosInstance";
 
 export default function ManageJobs() {
   const [jobs, setJobs] = useState([]);
@@ -10,7 +10,7 @@ export default function ManageJobs() {
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        const res = await axios.get("/jobs");
+        const res = await axiosInstance.get("/jobs");
         setJobs(res.data);
       } catch {
         setError("Failed to load jobs");

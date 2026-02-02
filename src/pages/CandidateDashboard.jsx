@@ -1,14 +1,16 @@
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axiosInstance from "../api/axiosInstance";
 import Badge from "../components/ui/Badge";
 import Button from "../components/ui/Button";
 
 export default function CandidateDashboard() {
   const navigate = useNavigate();
+  const [applications, setApplications] = useState([]);
 
-  const applications = [
-    { id: 1, role: "Frontend Dev", company: "TechCorp", status: "APPLIED" },
-    { id: 2, role: "Backend Dev", company: "InnovateX", status: "INTERVIEW" },
-  ];
+  useEffect(() => {
+    axiosInstance.get("/applications").then((res) => setApplications(res.data));
+  }, []);
 
   return (
     <div>
@@ -23,8 +25,8 @@ export default function CandidateDashboard() {
         {applications.map((a) => (
           <div key={a.id} style={card}>
             <div>
-              <h4>{a.role}</h4>
-              <p>{a.company}</p>
+              <h4>{a.jobTitle || "Job Role"}</h4>
+              <p>{a.companyName || "Company"}</p>
             </div>
             <Badge label={a.status} status={a.status} />
           </div>

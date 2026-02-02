@@ -1,7 +1,24 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axiosInstance from "../api/axiosInstance";
 import logo from "../assets/logo.svg";
 
 export default function Register() {
+  const navigate = useNavigate();
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleRegister = async () => {
+    try {
+      await axiosInstance.post("/auth/register", { name, email, password });
+      alert("Registration successful! Please login.");
+      navigate("/login");
+    } catch (error) {
+      alert("Registration failed");
+    }
+  };
+
   return (
     <div style={page}>
       <div style={card}>
@@ -10,15 +27,35 @@ export default function Register() {
         <h2 style={title}>Register</h2>
 
         <label style={label}>Name</label>
-        <input type="text" placeholder="Name" style={input} />
+        <input
+          type="text"
+          placeholder="Name"
+          style={input}
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
 
         <label style={label}>Email</label>
-        <input type="email" placeholder="Email" style={input} />
+        <input
+          type="email"
+          placeholder="Email"
+          style={input}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
 
         <label style={label}>Password</label>
-        <input type="password" placeholder="Password" style={input} />
+        <input
+          type="password"
+          placeholder="Password"
+          style={input}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
 
-        <button style={primaryBtn}>Register</button>
+        <button style={primaryBtn} onClick={handleRegister}>
+          Register
+        </button>
 
         <p style={footerText}>
           Already have an account?{" "}
